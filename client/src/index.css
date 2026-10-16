@@ -1,0 +1,132 @@
+@import 'tailwindcss';
+
+/* Design tokens: dark is the default, light via [data-theme="light"] on <html>. */
+:root {
+  color-scheme: dark;
+  --bg: #0a0f1d;
+  --hdr: rgba(10, 15, 29, 0.82);
+  --panel: #111a2e;
+  --panel2: #172138;
+  --panel3: #1d2945;
+  --line: #232f4b;
+  --line2: #30406a;
+  --tx: #eaeef6;
+  --tx2: #b3bdd1;
+  --tx3: #8590a8;
+  --acc: #36d6c3;
+  --fill: rgba(54, 214, 195, 0.1);
+  --fillLn: rgba(54, 214, 195, 0.55);
+  --A: #4ade80;
+  --Abg: rgba(74, 222, 128, 0.12);
+  --Aln: rgba(74, 222, 128, 0.35);
+  --B: #fbbf24;
+  --Bbg: rgba(251, 191, 36, 0.12);
+  --Bln: rgba(251, 191, 36, 0.35);
+  --C: #a3acbf;
+  --Cbg: rgba(163, 172, 191, 0.1);
+  --Cln: rgba(163, 172, 191, 0.28);
+  --bad: #f87171;
+  --badbg: rgba(248, 113, 113, 0.12);
+  --badln: rgba(248, 113, 113, 0.35);
+  --warn: #fbbf24;
+  --warnbg: rgba(251, 191, 36, 0.12);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --glow: radial-gradient(1200px 520px at 50% -180px, rgba(54, 214, 195, 0.16), transparent 70%);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4f6fa;
+  --hdr: rgba(244, 246, 250, 0.85);
+  --panel: #ffffff;
+  --panel2: #f1f4f9;
+  --panel3: #e8edf5;
+  --line: #e1e6ef;
+  --line2: #cbd3e1;
+  --tx: #0e1626;
+  --tx2: #3f4b62;
+  --tx3: #5d6880;
+  --acc: #0b8f82;
+  --fill: rgba(13, 148, 136, 0.09);
+  --fillLn: rgba(13, 148, 136, 0.55);
+  --A: #15803d;
+  --Abg: rgba(21, 128, 61, 0.1);
+  --Aln: rgba(21, 128, 61, 0.35);
+  --B: #b45309;
+  --Bbg: rgba(180, 83, 9, 0.1);
+  --Bln: rgba(180, 83, 9, 0.35);
+  --C: #5b6578;
+  --Cbg: rgba(91, 101, 120, 0.09);
+  --Cln: rgba(91, 101, 120, 0.28);
+  --bad: #c62828;
+  --badbg: rgba(198, 40, 40, 0.08);
+  --badln: rgba(198, 40, 40, 0.3);
+  --warn: #b45309;
+  --warnbg: rgba(180, 83, 9, 0.1);
+  --shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+  --glow: radial-gradient(1200px 520px at 50% -180px, rgba(13, 148, 136, 0.1), transparent 70%);
+}
+
+/* Expose the tokens as Tailwind utilities (bg-panel, text-tx2, border-line, text-tier-a, ...). */
+@theme inline {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --breakpoint-md: 47.5rem; /* 760px: table above, stacked cards below */
+
+  --color-bg: var(--bg);
+  --color-hdr: var(--hdr);
+  --color-panel: var(--panel);
+  --color-panel2: var(--panel2);
+  --color-panel3: var(--panel3);
+  --color-line: var(--line);
+  --color-line2: var(--line2);
+  --color-tx: var(--tx);
+  --color-tx2: var(--tx2);
+  --color-tx3: var(--tx3);
+  --color-acc: var(--acc);
+  --color-fill: var(--fill);
+  --color-fill-ln: var(--fillLn);
+  --color-tier-a: var(--A);
+  --color-tier-a-bg: var(--Abg);
+  --color-tier-a-ln: var(--Aln);
+  --color-tier-b: var(--B);
+  --color-tier-b-bg: var(--Bbg);
+  --color-tier-b-ln: var(--Bln);
+  --color-tier-c: var(--C);
+  --color-tier-c-bg: var(--Cbg);
+  --color-tier-c-ln: var(--Cln);
+  --color-bad: var(--bad);
+  --color-bad-bg: var(--badbg);
+  --color-bad-ln: var(--badln);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warnbg);
+
+  --shadow-panel: var(--shadow);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+  }
+  body {
+    @apply bg-bg font-sans text-tx antialiased;
+    background-image: var(--glow);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] px-4 py-2.5 text-sm font-semibold transition;
+    background: linear-gradient(135deg, #36d6c3, #4f8df7);
+    color: #04171b;
+    box-shadow: 0 8px 24px rgba(54, 214, 195, 0.22);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.06);
+  }
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.08em] text-acc;
+  }
+}

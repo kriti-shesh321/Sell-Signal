@@ -1,0 +1,25 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# deps & build output
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+*.tsbuildinfo
+.netlify/
+
+# local-only: design reference, working plan, tooling
+design/
+docs/plan.md
+.claude/
+CLAUDE.md
+
+# OS / editor
+.DS_Store
+*.log
+.idea/
+.vscode/

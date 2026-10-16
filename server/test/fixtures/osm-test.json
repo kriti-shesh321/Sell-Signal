@@ -1,0 +1,977 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-16T09:26:05Z",
+    "timestamp_areas_base": "2026-10-15T18:28:46Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1681681417,
+  "lat": 30.2271880,
+  "lon": -95.5268185,
+  "tags": {
+    "addr:city": "Conroe",
+    "addr:housenumber": "4050",
+    "addr:postcode": "77384",
+    "addr:state": "TX",
+    "addr:street": "FM 1488",
+    "craft": "plumber",
+    "name": "JD Precision Plumbing Services",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "phone": "+1-936-228-5000",
+    "website": "https://www.jdprecisionplumbing.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 2813979868,
+  "lat": 29.4939687,
+  "lon": -98.5053920,
+  "tags": {
+    "addr:city": "San Antonio",
+    "addr:housenumber": "12",
+    "addr:postcode": "78216",
+    "addr:street": "Burwood Lane",
+    "check_date": "2024-03-29",
+    "contact:facebook": "https://www.facebook.com/Yell4George/",
+    "contact:twitter": "https://twitter.com/yell4george",
+    "craft": "plumber",
+    "currency:XBT": "yes",
+    "name": "George Plumbing Co.",
+    "opening_hours": "Mo-Fr 06:00-20:00",
+    "phone": "+1-210-495-9991",
+    "website": "https://yell4george.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 3690280631,
+  "lat": 29.5105892,
+  "lon": -98.6395382,
+  "tags": {
+    "addr:city": "San Antonio",
+    "addr:housenumber": "7814",
+    "addr:postcode": "78250",
+    "addr:state": "TX",
+    "addr:street": "Mainland Drive",
+    "contact:email": "info@servicefirstactx.com",
+    "contact:facebook": "https://www.facebook.com/servicefirstactx",
+    "contact:linkedin": "https://www.linkedin.com/company/service-first-air-conditioning-and-heating",
+    "contact:twitter": "HVACSanAntonio",
+    "contact:youtube": "http://www.youtube.com/user/ServiceFirstAC",
+    "craft": "hvac",
+    "name": "Service First AC Repair & Plumbing",
+    "opening_hours": "24/7",
+    "operator": "Jack Overman",
+    "payment:american_express": "yes",
+    "payment:discover_card": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-210-521-1500",
+    "start_date": "1996",
+    "website": "https://www.servicefirstactx.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 3857696302,
+  "lat": 30.2743059,
+  "lon": -97.7617699,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "1505",
+    "addr:postcode": "78703",
+    "addr:state": "TX",
+    "addr:street": "West 6th Street",
+    "addr:unit": "AC-325",
+    "craft": "hvac",
+    "email": "info@acrepairaustin.org",
+    "name": "Austin Air Conditioning & Repair",
+    "phone": "+1-512-271-2172",
+    "website": "https://acrepairaustin.org/"
+  }
+},
+{
+  "type": "node",
+  "id": 3872431774,
+  "lat": 33.0727979,
+  "lon": -96.8236216,
+  "tags": {
+    "addr:city": "Plano",
+    "addr:country": "US",
+    "addr:housenumber": "6900",
+    "addr:postcode": "75024",
+    "addr:state": "TX",
+    "addr:street": "Dallas Parkway",
+    "craft": "electrician",
+    "name": "Solar Power Systems Plano",
+    "opening_hours": "Mo-Sa 09:00-19:00",
+    "phone": "+12818688427",
+    "website": "https://texassolarpowersystems.com/location/Plano"
+  }
+},
+{
+  "type": "node",
+  "id": 4053096525,
+  "lat": 29.4846806,
+  "lon": -95.0467930,
+  "tags": {
+    "addr:city": "Dickenson",
+    "addr:housenumber": "1800",
+    "addr:postcode": "77539",
+    "addr:state": "TX",
+    "addr:street": "Dickinson Avenue Suite A",
+    "craft": "hvac",
+    "name": "Vanderford Air, Inc.",
+    "phone": "+1 281-557-2665",
+    "website": "https://www.vanderfordair.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4060412462,
+  "lat": 27.8370682,
+  "lon": -97.5691837,
+  "tags": {
+    "addr:city": "Corpus Christi",
+    "addr:housenumber": "2910",
+    "addr:postcode": "78410",
+    "addr:state": "TX",
+    "addr:street": "Charles Drive",
+    "craft": "hvac",
+    "name": "Justice Air Conditioning & Heating",
+    "operator": "2910 Charles Drive",
+    "phone": "+1 361-241-6598",
+    "website": "https://www.justiceac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4066650628,
+  "lat": 33.0542907,
+  "lon": -96.9913278,
+  "tags": {
+    "addr:city": "Lewisville",
+    "addr:housenumber": "320",
+    "addr:postcode": "75057",
+    "addr:state": "TX",
+    "addr:street": "Smith Street",
+    "craft": "hvac",
+    "name": "Frost Brothers Heating & Air",
+    "phone": "+1-972-874-1001",
+    "website": "https://www.frostac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4066724168,
+  "lat": 30.6741980,
+  "lon": -97.6613641,
+  "tags": {
+    "addr:city": "Georgetown",
+    "addr:housenumber": "40112",
+    "addr:postcode": "78626",
+    "addr:state": "TX",
+    "addr:street": "Industrial Park Circle",
+    "craft": "hvac",
+    "name": "Express HVAC Service",
+    "phone": "+1-512-819-6805",
+    "website": "https://www.expresshvacservice.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4066820396,
+  "lat": 29.7499361,
+  "lon": -94.9504574,
+  "tags": {
+    "addr:city": "Baytown",
+    "addr:housenumber": "1108",
+    "addr:postcode": "77520",
+    "addr:state": "TX",
+    "addr:street": "Cedar Bayou Road",
+    "craft": "hvac",
+    "name": "Expert Air Cooling And Heating",
+    "phone": "+1-281-428-3744",
+    "website": "https://www.expertairco.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4066997796,
+  "lat": 28.0113827,
+  "lon": -97.0637475,
+  "tags": {
+    "addr:city": "Rockport",
+    "addr:housenumber": "1404",
+    "addr:postcode": "78382",
+    "addr:state": "TX",
+    "addr:street": "Highway 35 S",
+    "craft": "hvac",
+    "name": "Shellaby A/C & Refrigeration",
+    "phone": "+1 361-386-2886",
+    "website": "https://www.shellabyair.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4072301517,
+  "lat": 33.2040760,
+  "lon": -97.1124544,
+  "tags": {
+    "addr:city": "Denton",
+    "addr:housenumber": "904",
+    "addr:postcode": "76205",
+    "addr:state": "TX",
+    "addr:street": "South Woodrow Lane",
+    "craft": "hvac",
+    "name": "PRK Services, Inc.",
+    "phone": "+1-940-382-8554",
+    "website": "https://www.fixac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4073455241,
+  "lat": 30.3303104,
+  "lon": -97.7384060,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "5602",
+    "addr:postcode": "78756",
+    "addr:state": "TX",
+    "addr:street": "Clay Avenue",
+    "craft": "hvac",
+    "name": "Intelligent Air Services",
+    "phone": "+1-512-323-2500",
+    "website": "https://www.iairservices.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4073755178,
+  "lat": 30.1722814,
+  "lon": -95.4702748,
+  "tags": {
+    "addr:city": "Woodlands",
+    "addr:housenumber": "1790",
+    "addr:postcode": "77380",
+    "addr:state": "TX",
+    "addr:street": "Hughes Landing Boulevard",
+    "craft": "hvac",
+    "name": "Accur-AC",
+    "phone": "+1-281-602-3410",
+    "website": "http://www.accur-ac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4089906936,
+  "lat": 29.5227717,
+  "lon": -98.4579968,
+  "tags": {
+    "addr:city": "San Antonio",
+    "addr:housenumber": "9010",
+    "addr:postcode": "78217",
+    "addr:state": "TX",
+    "addr:street": "Broadway",
+    "craft": "hvac",
+    "name": "Riteway Service Company",
+    "phone": "+1-210-308-8880",
+    "website": "https://www.riteway-sa.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4141133889,
+  "lat": 29.5703672,
+  "lon": -98.3573742,
+  "tags": {
+    "addr:city": "San Antonio",
+    "addr:housenumber": "14309",
+    "addr:postcode": "78233",
+    "addr:state": "TX",
+    "addr:street": "Toepperwein Road",
+    "addr:unit": "Suite 104",
+    "craft": "hvac",
+    "name": "Cowboys Air Conditioning & Heating",
+    "phone": "+1-210-495-7771",
+    "website": "https://www.cowboysac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4149671407,
+  "lat": 32.7441737,
+  "lon": -96.9947880,
+  "tags": {
+    "addr:city": "Grand Prairie",
+    "addr:housenumber": "217",
+    "addr:postcode": "75051",
+    "addr:state": "TX",
+    "addr:street": "South Belt Line Road",
+    "craft": "hvac",
+    "name": "Conditioned Air Services",
+    "phone": "+1-972-263-1800",
+    "website": "https://www.conditionedairservice.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4178619759,
+  "lat": 29.5024639,
+  "lon": -95.7862736,
+  "tags": {
+    "addr:city": "Richmond",
+    "addr:housenumber": "5702",
+    "addr:postcode": "77469",
+    "addr:state": "TX",
+    "addr:street": "Powerline Road",
+    "craft": "hvac",
+    "name": "Fresh Air, L.P.",
+    "phone": "+1-281-499-3511",
+    "website": "https://www.freshairinc.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4461569259,
+  "lat": 31.5447136,
+  "lon": -94.7458184,
+  "tags": {
+    "addr:city": "Nacogdoches",
+    "addr:country": "US",
+    "addr:housenumber": "8200",
+    "addr:postcode": "75964",
+    "addr:state": "TX",
+    "addr:street": "TX-7",
+    "craft": "hvac",
+    "name": "Texas Air Conditioning & Electric",
+    "owner": "Tim Bell",
+    "phone": "+1 936 4628030",
+    "start_date": "2007",
+    "website": "https://txace.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4550506138,
+  "lat": 31.7770782,
+  "lon": -106.4498440,
+  "tags": {
+    "addr:city": "El Paso",
+    "addr:housenumber": "3624",
+    "addr:postcode": "79905",
+    "addr:state": "TX",
+    "addr:street": "Gateway Blvd E #B",
+    "craft": "electrician",
+    "name": "DH Electrical Services",
+    "operator": "Daniel Hernandez",
+    "phone": "+1-915-474-2002",
+    "website": "https://dhelectricalservices.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4553889127,
+  "lat": 31.7225565,
+  "lon": -106.3213358,
+  "tags": {
+    "addr:city": "El Paso",
+    "addr:housenumber": "821",
+    "addr:postcode": "79907",
+    "addr:state": "TX",
+    "addr:street": "Pendale Road #B",
+    "craft": "electrician",
+    "name": "Secure Contractors Inc",
+    "operator": "Moses Aguilar",
+    "phone": "+1-915-328-4229",
+    "website": "https://securecontractorsinc.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5055851391,
+  "lat": 32.8699161,
+  "lon": -97.2056834,
+  "tags": {
+    "addr:city": "North Richland Hills",
+    "addr:country": "US",
+    "addr:housenumber": "8208",
+    "addr:postcode": "76182",
+    "addr:state": "TX",
+    "addr:street": "Northeast Parkway",
+    "addr:suite": "#123",
+    "craft": "hvac",
+    "email": "dub-bird@sbcglobal.net",
+    "name": "A-Bird Air Conditioning & Heating",
+    "opening_hours": "Mo-Fr 08:00-20:00; Sa 08:00-17:00; Su off",
+    "operator": "Dub Peacock",
+    "phone": "+1-817- 581-1214",
+    "website": "https://www.acrepairkeller.com"
+  }
+},
+{
+  "type": "node",
+  "id": 5083460300,
+  "lat": 30.2654749,
+  "lon": -97.7361218,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "507",
+    "addr:postcode": "78701",
+    "addr:state": "TX",
+    "addr:street": "Sabine Street",
+    "craft": "hvac",
+    "name": "Austin Air Duct Cleaning",
+    "opening_hours": "24/7",
+    "phone": "+1-512-354-2780",
+    "website": "https://austinductcleaning.us/"
+  }
+},
+{
+  "type": "node",
+  "id": 5130020700,
+  "lat": 32.3228717,
+  "lon": -96.9198789,
+  "tags": {
+    "addr:city": "Waxahachie",
+    "addr:housenumber": "3314",
+    "addr:postcode": "75167",
+    "addr:state": "TX",
+    "addr:street": "Greathouse Road",
+    "contact:website": "http://electricalcontractorwaxahachie.com",
+    "craft": "electrician",
+    "facebook": "https://www.facebook.com/reeveselec/?rf=762630443785896",
+    "name": "Reeves Electrical Contracting Inc.",
+    "opening_hours": "Mo-Fr 00:00-24:00; Sa 08:00-19:00; Su 15:00-23:00",
+    "phone": "+1-972-938-0893",
+    "website": "https://www.electricalcontractorwaxahachie.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5159334121,
+  "lat": 30.2232330,
+  "lon": -97.7562122,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "3903",
+    "addr:postcode": "78704",
+    "addr:state": "TX",
+    "addr:street": "Warehouse Row",
+    "addr:unit": "D",
+    "craft": "hvac",
+    "name": "Smart Air Service Co.",
+    "opening_hours": "Mo-Su 09:00-21:00",
+    "phone": "+1-512-600-4311",
+    "website": "https://smartairaustin.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5240063080,
+  "lat": 33.4096571,
+  "lon": -96.5766394,
+  "tags": {
+    "addr:city": "Van Alstyne",
+    "addr:housenumber": "1508",
+    "addr:postcode": "75495",
+    "addr:state": "TX",
+    "addr:street": "Greenbrier Drive",
+    "craft": "hvac",
+    "name": "Adon Complete Property Solutions",
+    "opening_hours": "24/7",
+    "phone": "+1-903-482-4900",
+    "website": "https://www.adoncps.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5393073693,
+  "lat": 32.9880883,
+  "lon": -96.6325948,
+  "tags": {
+    "addr:city": "Richardson",
+    "addr:housenumber": "2804",
+    "addr:postcode": "75082",
+    "addr:state": "TX",
+    "addr:street": "Telluride Lane",
+    "craft": "hvac",
+    "name": "Chill Air Concept",
+    "opening_hours": "Mo-Fr 08:00-17:00",
+    "operator": "Maher Murshed",
+    "payment:american_express": "yes",
+    "payment:cash": "yes",
+    "payment:cheque": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-972-699-8080",
+    "website": "https://chillair-concept.com"
+  }
+},
+{
+  "type": "node",
+  "id": 5404041967,
+  "lat": 31.6722426,
+  "lon": -97.2259873,
+  "tags": {
+    "addr:city": "Waco",
+    "addr:housenumber": "230",
+    "addr:postcode": "76708",
+    "addr:state": "TX",
+    "addr:street": "McNamara Lane",
+    "craft": "plumber",
+    "name": "McNamara Custom Services Inc.",
+    "opening_hours": "Mo-Fr 07:30-17:00",
+    "phone": "+1-254-836-4304",
+    "start_date": "1982",
+    "website": "https://acandplumbing.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5558451512,
+  "lat": 29.4412708,
+  "lon": -98.4101606,
+  "tags": {
+    "addr:city": "San Antonio",
+    "addr:housenumber": "4343",
+    "addr:postcode": "78219",
+    "addr:state": "TX",
+    "addr:street": "Dividend Drive",
+    "craft": "hvac",
+    "email": "itsairstreamheating@gmail.com",
+    "name": "Air-Stream Heating & AC Co",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-210-533-3264",
+    "website": "https://www.air-streamservices.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5563700111,
+  "lat": 33.5309941,
+  "lon": -101.9381392,
+  "tags": {
+    "addr:city": "Lubbock",
+    "addr:housenumber": "5722",
+    "addr:postcode": "79424",
+    "addr:state": "TX",
+    "addr:street": "70th Street",
+    "craft": "hvac",
+    "name": "Lellem Welch Plumbing, Heating & Air Conditioning",
+    "opening_hours": "Mo-Fr 08:00-17:00",
+    "phone": "+1-806-798-7908",
+    "website": "https://www.lellemwelchplbginc.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5706313100,
+  "lat": 30.3690250,
+  "lon": -97.7222736,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "8910",
+    "addr:postcode": "78758",
+    "addr:state": "TX",
+    "addr:street": "Research Boulevard",
+    "addr:unit": "C4",
+    "craft": "hvac",
+    "email": "scheduling@eliteaustinac.com",
+    "name": "Elite Heating and Air Conditioning",
+    "opening_hours": "24/7",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+1-512-637-4237",
+    "website": "https://eliteaustinac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5706324171,
+  "lat": 30.2808362,
+  "lon": -97.8071774,
+  "tags": {
+    "addr:city": "West Lake Hills",
+    "addr:housenumber": "3736",
+    "addr:postcode": "78746",
+    "addr:state": "TX",
+    "addr:street": "Bee Caves Road",
+    "addr:unit": "1-166",
+    "craft": "hvac",
+    "email": "scheduling@eliteaustinac.com",
+    "name": "Elite Heating and Air Conditioning",
+    "opening_hours": "24/7",
+    "phone": "+1-512-637-4237",
+    "website": "https://eliteaustinac.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5743492159,
+  "lat": 32.9388783,
+  "lon": -96.7383188,
+  "tags": {
+    "addr:city": "Richardson",
+    "addr:housenumber": "808",
+    "addr:postcode": "75081",
+    "addr:state": "TX",
+    "addr:street": "Business Parkway",
+    "craft": "hvac",
+    "name": "Truficient Energy Solutions",
+    "opening_hours": "Mo-Sa 08:00-18:00",
+    "payment:american_express": "yes",
+    "payment:cash": "yes",
+    "payment:cheque": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-214-238-4350",
+    "website": "https://truficient.com"
+  }
+},
+{
+  "type": "node",
+  "id": 5753968932,
+  "lat": 32.5818795,
+  "lon": -97.1536974,
+  "tags": {
+    "addr:city": "Mansfield",
+    "addr:housenumber": "1285",
+    "addr:postcode": "76063",
+    "addr:state": "TX",
+    "addr:street": "North Main Street",
+    "addr:unit": "#306",
+    "craft": "electrician",
+    "name": "Clements Electric Texas, LLC",
+    "opening_hours": "Mo-Su 12:00-24:00",
+    "operator": "Mike Clements",
+    "phone": "+1-817-673-7984",
+    "website": "https://www.clementselectric.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5762889365,
+  "lat": 32.9416873,
+  "lon": -96.3812921,
+  "tags": {
+    "addr:city": "Fate",
+    "addr:housenumber": "101",
+    "addr:postcode": "75087",
+    "addr:state": "TX",
+    "addr:street": "Fate Main Place",
+    "craft": "electrician",
+    "name": "Rockwall Electric Inc",
+    "opening_hours": "Mo-Fr 08:00-19:00",
+    "phone": "+1-972-771-5390",
+    "website": "https://www.rockwallelectric.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 5814748982,
+  "lat": 32.9627471,
+  "lon": -96.7118019,
+  "tags": {
+    "addr:city": "Richardson",
+    "addr:housenumber": "1220",
+    "addr:postcode": "75081",
+    "addr:state": "TX",
+    "addr:street": "Executive Drive West",
+    "craft": "hvac",
+    "name": "DFW HVAC and Plumbing LLC",
+    "opening_hours": "Mo-Su 12:30-23:30",
+    "payment:american_express": "yes",
+    "payment:cash": "yes",
+    "payment:cheque": "yes",
+    "payment:discover_card": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-972-479-9962",
+    "website": "http://mbpheatingandair.info"
+  }
+},
+{
+  "type": "node",
+  "id": 5845614368,
+  "lat": 30.1224406,
+  "lon": -95.7457410,
+  "tags": {
+    "addr:city": "Magnolia",
+    "addr:housenumber": "19706",
+    "addr:postcode": "77355",
+    "addr:state": "TX",
+    "addr:street": "Turtle Dove Lane",
+    "craft": "hvac",
+    "fax": "+1 281-259-4372",
+    "name": "Ace Air By Elliott Services",
+    "opening_hours": "24/7",
+    "payment:cash": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1 281-850-0433",
+    "website": "http://aceairbyelliottservices.com"
+  }
+},
+{
+  "type": "node",
+  "id": 5986753066,
+  "lat": 30.1365290,
+  "lon": -95.2258862,
+  "tags": {
+    "addr:city": "New Caney",
+    "addr:housenumber": "21371",
+    "addr:postcode": "77357",
+    "addr:state": "TX",
+    "addr:street": "Eastex Freeway",
+    "craft": "plumber",
+    "email": "mdn@mdnenterprises.com",
+    "fax": "+1-281-354-9621",
+    "name": "MDN Enterprises",
+    "opening_hours": "Mo-Fr 07:00-17:00; Sa 08:00-12:00",
+    "phone": "+1-281-354-9621",
+    "website": "https://mdnenterprises.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6006751539,
+  "lat": 30.1421561,
+  "lon": -95.2231950,
+  "tags": {
+    "addr:city": "New Caney",
+    "addr:housenumber": "21001",
+    "addr:postcode": "77357",
+    "addr:state": "TX",
+    "addr:street": "Eastex Freeway",
+    "craft": "electrician",
+    "name": "Entergy",
+    "opening_hours": "Mo-Fr 09:00-16:00",
+    "phone": "+1-800-368-3749",
+    "website": "https://www.entergy.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6059510462,
+  "lat": 32.9656127,
+  "lon": -96.7069829,
+  "tags": {
+    "addr:city": "Richardson",
+    "addr:country": "US",
+    "addr:housenumber": "1168",
+    "addr:postcode": "75081",
+    "addr:state": "TX",
+    "addr:street": "Commerce Drive",
+    "craft": "hvac",
+    "name": "Green Leaf Air",
+    "opening_hours": "Mo-Su 09:00-18:00",
+    "payment:coins": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:visa": "yes",
+    "phone": "+1-972-992-5006",
+    "website": "https://greenleafair.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6137138532,
+  "lat": 31.8189527,
+  "lon": -106.2230143,
+  "tags": {
+    "addr:city": "El Paso",
+    "addr:housenumber": "13340",
+    "addr:postcode": "79938",
+    "addr:state": "TX",
+    "addr:street": "Ayla Road",
+    "craft": "hvac",
+    "name": "Perfect Weather Heating & Cooling",
+    "opening_hours": "Mo-Fr 07:00-17:00",
+    "payment:american_express": "yes",
+    "payment:cash": "yes",
+    "payment:cheque": "yes",
+    "payment:debit_cards": "yes",
+    "payment:discover_card": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+1 915-921-9677",
+    "website": "https://elpasoperfectweather.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6225035166,
+  "lat": 26.2069732,
+  "lon": -98.2105155,
+  "tags": {
+    "addr:city": "McAllen",
+    "addr:housenumber": "805",
+    "addr:postcode": "78501",
+    "addr:state": "TX",
+    "addr:street": "E Fir Ave",
+    "craft": "hvac",
+    "name": "Commercial Service Co",
+    "phone": "+1-956-686-9413",
+    "website": "http://commercialservicecotx.com"
+  }
+},
+{
+  "type": "node",
+  "id": 6348097587,
+  "lat": 30.3839041,
+  "lon": -97.7170192,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "10315",
+    "addr:postcode": "78758",
+    "addr:state": "TX",
+    "addr:street": "Metropolitan Drive",
+    "addr:unit": "A",
+    "craft": "hvac",
+    "name": "Efficent AC, Electric & Plumbing",
+    "opening_hours": "Mo-Fr 07:00-17:00",
+    "phone": "+1-512-501-2275",
+    "website": "https://efficienttexas.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6348097601,
+  "lat": 30.3835596,
+  "lon": -97.7118020,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "10508",
+    "addr:postcode": "78758",
+    "addr:state": "TX",
+    "addr:street": "Metric Boulevard",
+    "addr:unit": "D",
+    "craft": "hvac",
+    "name": "MORSCO HVAC Supply",
+    "opening_hours": "Mo-Fr 07:00-17:00",
+    "phone": "+1-512-302-3575",
+    "website": "https://www.morscohvacsupply.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6348097608,
+  "lat": 30.3863820,
+  "lon": -97.7123269,
+  "tags": {
+    "addr:city": "Austin",
+    "addr:housenumber": "10620",
+    "addr:postcode": "78758",
+    "addr:state": "TX",
+    "addr:street": "Metric Boulevard",
+    "craft": "hvac",
+    "name": "Johnstone Supply",
+    "phone": "+1-512-834-0346",
+    "website": "https://www.johnstonesupply.com/store55?"
+  }
+},
+{
+  "type": "node",
+  "id": 6390232729,
+  "lat": 32.8209097,
+  "lon": -97.1133270,
+  "tags": {
+    "addr:city": "Euless",
+    "addr:housenumber": "1114",
+    "addr:postcode": "76040",
+    "addr:state": "TX",
+    "addr:street": "South Airport Circle",
+    "addr:unit": "120",
+    "craft": "hvac",
+    "description": "BIMS, Inc. offers a full range of repair, preventative maintenance, and problem-solving ability with our team of skilled technicians.",
+    "name": "BIMS, Inc.",
+    "opening_hours": "Mo-Su 09:00-09:00",
+    "phone": "+1 214-467-2653",
+    "website": "https://bellomyims.com"
+  }
+},
+{
+  "type": "node",
+  "id": 6408287348,
+  "lat": 32.9196308,
+  "lon": -96.5714729,
+  "tags": {
+    "addr:city": "Rowlett",
+    "addr:housenumber": "3505",
+    "addr:postcode": "75089",
+    "addr:state": "TX",
+    "addr:street": "Locust Street",
+    "craft": "hvac",
+    "fax": "+1-972-475-1967",
+    "name": "Vent-One LLC",
+    "phone": "+1-214-538-5738",
+    "website": "https://www.vent-onellc.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6596492904,
+  "lat": 28.9157336,
+  "lon": -96.9996746,
+  "tags": {
+    "addr:city": "Victoria",
+    "addr:housenumber": "186",
+    "addr:postcode": "77904",
+    "addr:state": "TX",
+    "addr:street": "Reid Drive",
+    "craft": "plumber",
+    "name": "D & S Plumbing",
+    "operator": "David Stithem",
+    "phone": "+1-361-575-5949",
+    "start_date": "1985",
+    "website": "http://dandsplumbingtexas.com"
+  }
+},
+{
+  "type": "node",
+  "id": 6598444325,
+  "lat": 30.0485412,
+  "lon": -95.1802417,
+  "tags": {
+    "addr:city": "Kingwood",
+    "addr:housenumber": "2722",
+    "addr:postcode": "77345",
+    "addr:state": "TX",
+    "addr:street": "Kings Retreat Circle",
+    "craft": "hvac",
+    "name": "Kingwood AC Repair Pros",
+    "opening_hours": "24/7",
+    "phone": "+1-281-623-1871",
+    "website": "https://acrepairkingwoodtexas.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 6832646119,
+  "lat": 29.7668181,
+  "lon": -95.3781619,
+  "tags": {
+    "addr:city": "Houston",
+    "addr:housenumber": "1919",
+    "addr:postcode": "77007",
+    "addr:state": "TX",
+    "addr:street": "Decatur Street",
+    "craft": "hvac",
+    "name": "Superior HVAC",
+    "phone": "+1-281-288-7777",
+    "website": "https://www.superiorhvactexas.com"
+  }
+}
+
+  ]
+}
