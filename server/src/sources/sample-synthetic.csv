@@ -1,0 +1,14 @@
+# SYNTHETIC SAMPLE: hand-written rows in SaaSquatch's export format, for demoing CSV import and cross-source dedupe. Companies and websites are real (from OpenStreetMap); no founding years, owners or scores are invented.
+company,website,industry,employees,revenue,yearFounded,productCategory,businessType,bbbRating,street,city,state,companyPhone,companyLinkedin,aiScore,matched_keywords,descriptive_keywords,aiExplanation
+JD Precision Plumbing Services LLC,http://jdprecisionplumbing.com/contact-us,Plumbing,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Conroe,TX,(936) 228-5000,,N/A,N/A,N/A,N/A
+Frost Brothers Heating and Air,WWW.FROSTAC.COM,HVAC Services,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Lewisville,Texas,N/A,,N/A,N/A,N/A,N/A
+D&S Plumbing,dandsplumbingtexas.com/?utm_source=directory,Plumbing,NaN,NaN,NaN,,,,,Victoria,TX,361-575-5949,,NaN,,,
+"Clements Electric Texas LLC",N/A,Electrical Contractor,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Mansfield,TX,N/A,,N/A,N/A,N/A,N/A
+"Riteway Service Company, Inc.",N/A,Heating & Air Conditioning,N/A,N/A,N/A,N/A,N/A,N/A,N/A,San Antonio,TX,N/A,,N/A,N/A,N/A,N/A
+Accur-AC,http://www.accur-ac.com/,HVAC,N/A,N/A,N/A,N/A,N/A,N/A,N/A,The Woodlands,TX,+1-281-602-3410,,N/A,N/A,N/A,N/A
+Rockwall Electric Inc,https://www.rockwallelectric.com/,Electrician,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Fate,TX,+1-972-771-5390,,N/A,N/A,N/A,N/A
+Commercial Service Co,http://commercialservicecotx.com,Air Conditioning Contractor,N/A,N/A,N/A,N/A,N/A,N/A,N/A,McAllen,TX,956-686-9413,,N/A,N/A,N/A,N/A
+Kingwood AC Repair Pros,https://acrepairkingwoodtexas.com/,HVAC,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Kingwood,TX,281-623-1871,,N/A,N/A,N/A,N/A
+"Lellem Welch Plumbing, Heating & Air Conditioning",https://www.lellemwelchplbginc.com/,Plumbing,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Lubbock,TX,(806) 798-7908,,N/A,N/A,N/A,N/A
+Rockwall Electric,N/A,Electrical,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Fate,TX,972.771.5390,,N/A,N/A,N/A,N/A
+Kingwood AC Repair Pros,https://acrepairkingwoodtexas.com/services,HVAC,N/A,N/A,N/A,N/A,N/A,N/A,N/A,Kingwood,TX,N/A,,N/A,N/A,N/A,N/A

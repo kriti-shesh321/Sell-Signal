@@ -1,0 +1,285 @@
+{
+  "description": "Seed list: 40 real HVAC, plumbing and electrical businesses in Texas, hand-picked from an OpenStreetMap snapshot (Overpass API). Names and domains only; every other field is found by the pipeline. Suppliers, utilities and duplicates were excluded.",
+  "companies": [
+    {
+      "name": "JD Precision Plumbing Services",
+      "domain": "jdprecisionplumbing.com",
+      "industry": "plumbing",
+      "city": "Conroe",
+      "state": "TX"
+    },
+    {
+      "name": "George Plumbing Co.",
+      "domain": "yell4george.com",
+      "industry": "plumbing",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "Service First AC Repair & Plumbing",
+      "domain": "servicefirstactx.com",
+      "industry": "hvac",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "Austin Air Conditioning & Repair",
+      "domain": "acrepairaustin.org",
+      "industry": "hvac",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "name": "Vanderford Air, Inc.",
+      "domain": "vanderfordair.com",
+      "industry": "hvac",
+      "city": "Dickenson",
+      "state": "TX"
+    },
+    {
+      "name": "Justice Air Conditioning & Heating",
+      "domain": "justiceac.com",
+      "industry": "hvac",
+      "city": "Corpus Christi",
+      "state": "TX"
+    },
+    {
+      "name": "Frost Brothers Heating & Air",
+      "domain": "frostac.com",
+      "industry": "hvac",
+      "city": "Lewisville",
+      "state": "TX"
+    },
+    {
+      "name": "Express HVAC Service",
+      "domain": "expresshvacservice.com",
+      "industry": "hvac",
+      "city": "Georgetown",
+      "state": "TX"
+    },
+    {
+      "name": "Expert Air Cooling And Heating",
+      "domain": "expertairco.com",
+      "industry": "hvac",
+      "city": "Baytown",
+      "state": "TX"
+    },
+    {
+      "name": "Shellaby A/C & Refrigeration",
+      "domain": "shellabyair.com",
+      "industry": "hvac",
+      "city": "Rockport",
+      "state": "TX"
+    },
+    {
+      "name": "PRK Services, Inc.",
+      "domain": "fixac.com",
+      "industry": "hvac",
+      "city": "Denton",
+      "state": "TX"
+    },
+    {
+      "name": "Intelligent Air Services",
+      "domain": "iairservices.com",
+      "industry": "hvac",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "name": "Riteway Service Company",
+      "domain": "riteway-sa.com",
+      "industry": "hvac",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "Cowboys Air Conditioning & Heating",
+      "domain": "cowboysac.com",
+      "industry": "hvac",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "Conditioned Air Services",
+      "domain": "conditionedairservice.com",
+      "industry": "hvac",
+      "city": "Grand Prairie",
+      "state": "TX"
+    },
+    {
+      "name": "Fresh Air, L.P.",
+      "domain": "freshairinc.com",
+      "industry": "hvac",
+      "city": "Richmond",
+      "state": "TX"
+    },
+    {
+      "name": "Texas Air Conditioning & Electric",
+      "domain": "txace.com",
+      "industry": "hvac",
+      "city": "Nacogdoches",
+      "state": "TX"
+    },
+    {
+      "name": "DH Electrical Services",
+      "domain": "dhelectricalservices.com",
+      "industry": "electrical",
+      "city": "El Paso",
+      "state": "TX"
+    },
+    {
+      "name": "Secure Contractors Inc",
+      "domain": "securecontractorsinc.com",
+      "industry": "electrical",
+      "city": "El Paso",
+      "state": "TX"
+    },
+    {
+      "name": "A-Bird Air Conditioning & Heating",
+      "domain": "acrepairkeller.com",
+      "industry": "hvac",
+      "city": "North Richland Hills",
+      "state": "TX"
+    },
+    {
+      "name": "Austin Air Duct Cleaning",
+      "domain": "austinductcleaning.us",
+      "industry": "hvac",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "name": "Reeves Electrical Contracting Inc.",
+      "domain": "electricalcontractorwaxahachie.com",
+      "industry": "electrical",
+      "city": "Waxahachie",
+      "state": "TX"
+    },
+    {
+      "name": "Smart Air Service Co.",
+      "domain": "smartairaustin.com",
+      "industry": "hvac",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "name": "Adon Complete Property Solutions",
+      "domain": "adoncps.com",
+      "industry": "hvac",
+      "city": "Van Alstyne",
+      "state": "TX"
+    },
+    {
+      "name": "Chill Air Concept",
+      "domain": "chillair-concept.com",
+      "industry": "hvac",
+      "city": "Richardson",
+      "state": "TX"
+    },
+    {
+      "name": "McNamara Custom Services Inc.",
+      "domain": "acandplumbing.com",
+      "industry": "plumbing",
+      "city": "Waco",
+      "state": "TX"
+    },
+    {
+      "name": "Air-Stream Heating & AC Co",
+      "domain": "air-streamservices.com",
+      "industry": "hvac",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "Elite Heating and Air Conditioning",
+      "domain": "eliteaustinac.com",
+      "industry": "hvac",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "name": "Truficient Energy Solutions",
+      "domain": "truficient.com",
+      "industry": "hvac",
+      "city": "Richardson",
+      "state": "TX"
+    },
+    {
+      "name": "Clements Electric Texas, LLC",
+      "domain": "clementselectric.com",
+      "industry": "electrical",
+      "city": "Mansfield",
+      "state": "TX"
+    },
+    {
+      "name": "DFW HVAC and Plumbing LLC",
+      "domain": "mbpheatingandair.info",
+      "industry": "hvac",
+      "city": "Richardson",
+      "state": "TX"
+    },
+    {
+      "name": "Ace Air By Elliott Services",
+      "domain": "aceairbyelliottservices.com",
+      "industry": "hvac",
+      "city": "Magnolia",
+      "state": "TX"
+    },
+    {
+      "name": "MDN Enterprises",
+      "domain": "mdnenterprises.com",
+      "industry": "plumbing",
+      "city": "New Caney",
+      "state": "TX"
+    },
+    {
+      "name": "Green Leaf Air",
+      "domain": "greenleafair.com",
+      "industry": "hvac",
+      "city": "Richardson",
+      "state": "TX"
+    },
+    {
+      "name": "Perfect Weather Heating & Cooling",
+      "domain": "elpasoperfectweather.com",
+      "industry": "hvac",
+      "city": "El Paso",
+      "state": "TX"
+    },
+    {
+      "name": "Efficent AC, Electric & Plumbing",
+      "domain": "efficienttexas.com",
+      "industry": "hvac",
+      "city": "Austin",
+      "state": "TX"
+    },
+    {
+      "name": "BIMS, Inc.",
+      "domain": "bellomyims.com",
+      "industry": "hvac",
+      "city": "Euless",
+      "state": "TX"
+    },
+    {
+      "name": "Vent-One LLC",
+      "domain": "vent-onellc.com",
+      "industry": "hvac",
+      "city": "Rowlett",
+      "state": "TX"
+    },
+    {
+      "name": "D & S Plumbing",
+      "domain": "dandsplumbingtexas.com",
+      "industry": "plumbing",
+      "city": "Victoria",
+      "state": "TX"
+    },
+    {
+      "name": "Superior HVAC",
+      "domain": "superiorhvactexas.com",
+      "industry": "hvac",
+      "city": "Houston",
+      "state": "TX"
+    }
+  ]
+}
