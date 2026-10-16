@@ -13,14 +13,17 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "db:migrate": "tsx src/db/migrate.ts",
-    "report:dedupe": "tsx scripts/dedupe-report.ts"
+    "report:dedupe": "tsx scripts/dedupe-report.ts",
+    "probe": "tsx scripts/probe.ts"
   },
   "type": "module",
   "dependencies": {
+    "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "csv-parse": "^7.0.3",
     "express": "^5.3.0",
     "pg": "^8.23.1",
+    "robots-parser": "^3.0.1",
     "undici": "^8.12.2",
     "zod": "^4.6.7"
   },

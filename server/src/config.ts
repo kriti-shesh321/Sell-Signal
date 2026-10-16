@@ -13,6 +13,7 @@ const EnvSchema = z.object({
   FETCH_TIMEOUT_MS: z.coerce.number().int().positive().default(8000),
   CRAWL_CONCURRENCY: z.coerce.number().int().positive().max(10).default(5),
   CACHE_TTL_DAYS: z.coerce.number().positive().default(7),
+  CACHE_TTL_UNREACHABLE_DAYS: z.coerce.number().positive().default(1),
   AI_FALLBACK: onOff,
   AI_PROVIDER: z.enum(['gemini', 'anthropic']).default('gemini'),
   AI_MODEL: z.string().optional(),
