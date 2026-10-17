@@ -95,7 +95,9 @@ async function attempt(start: URL, opts: Required<Omit<FetcherOptions, 'dispatch
         dispatcher: opts.dispatcher,
       });
     } catch (err) {
-      return { kind: 'unreachable', url: start.href, reason: errorReason(err), retryable: true };
+      const reason = errorReason(err);
+      // A domain that doesn't resolve won't resolve a second later either.
+      return { kind: 'unreachable', url: start.href, reason, retryable: reason !== 'ENOTFOUND' };
     }
 
     const { statusCode: status, headers } = res;

@@ -70,6 +70,12 @@ describe('fetchUrl', () => {
     expect(r).toMatchObject({ kind: 'unreachable', attempts: 2 });
   });
 
+  it('does not retry a DNS failure', async () => {
+    site().intercept({ path: '/' }).replyWithError(Object.assign(new Error('getaddrinfo ENOTFOUND'), { code: 'ENOTFOUND' }));
+    const r = await fetchUrl(`${SITE}/`, opts);
+    expect(r).toMatchObject({ kind: 'unreachable', reason: 'ENOTFOUND', attempts: 1 });
+  });
+
   it('follows redirects, including to another host', async () => {
     site().intercept({ path: '/' }).reply(301, '', { headers: { location: 'https://www.smith.test/' } });
     agent.get('https://www.smith.test').intercept({ path: '/' }).reply(200, 'home', { headers: HTML });

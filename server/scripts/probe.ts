@@ -5,8 +5,25 @@ import { createDb } from '../src/db/pool.js';
 import { migrate } from '../src/db/migrate.js';
 import { pgDomainCache } from '../src/enrich/cache.js';
 import { crawlSite } from '../src/enrich/crawl.js';
+import { EXTRACTOR_VERSION, extractSite, type SiteFacts } from '../src/enrich/extract/index.js';
 import { configureNetwork } from '../src/net.js';
 import { domain as toDomain } from '../src/pipeline/normalize.js';
+
+function printFacts(f: SiteFacts) {
+  const row = (label: string, v: { value: unknown; source: string; method: string; evidence: string } | null) =>
+    console.log(`  ${label.padEnd(14)} ${v ? `${JSON.stringify(v.value)}  ← ${v.source} (${v.method}) "${v.evidence}"` : '—'}`);
+  console.log('  extracted:');
+  row('yearFounded', f.yearFounded);
+  row('ownerName', f.ownerName);
+  row('phone', f.phone);
+  row('email', f.email);
+  row('address', f.address);
+  row('familyOwned', f.signals.familyOwned);
+  row('franchise', f.signals.franchise);
+  row('nonprofit', f.signals.nonprofit);
+  row('copyrightYear', f.signals.copyrightYear);
+  console.log(`  ${'viewport'.padEnd(14)} ${f.signals.hasViewport} · https ${f.signals.https}`);
+}
 
 const args = process.argv.slice(2);
 const input = args.find((a) => !a.startsWith('--'));
@@ -31,6 +48,8 @@ try {
     fetcher: { userAgent: config.USER_AGENT, timeoutMs: config.FETCH_TIMEOUT_MS },
     cache: pgDomainCache(db, { days: config.CACHE_TTL_DAYS, unreachableDays: config.CACHE_TTL_UNREACHABLE_DAYS }),
     fresh: args.includes('--fresh'),
+    extract: (pages, finalUrl) => extractSite(pages, finalUrl),
+    version: EXTRACTOR_VERSION,
   });
   const ago = (d: Date) => {
     const min = Math.round((Date.now() - d.getTime()) / 60_000);
@@ -48,6 +67,7 @@ try {
       .join(', ');
     console.log(`  ${p.role.padEnd(7)} ${p.result.padEnd(11)} ${p.path}  (${extra})`);
   }
+  if (result.facts) printFacts(result.facts);
 } finally {
   await db.close();
 }

@@ -101,12 +101,12 @@ export function state(value: unknown): string | null {
   return v ? toStateCode(v) : null;
 }
 
-/** Lowercased email without "mailto:", or null if it doesn't look like an address. */
+/** Lowercased email without "mailto:" or a "www." host, or null if it isn't a plain address (masked ones like "sc***@…" fail). */
 export function email(value: unknown): string | null {
   const v = clean(value);
   if (!v) return null;
-  const first = v.replace(/^mailto:/i, '').split(/[;,\s]/)[0]!.toLowerCase();
-  return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/.test(first) ? first : null;
+  const first = v.replace(/^mailto:/i, '').split(/[;,\s]/)[0]!.toLowerCase().replace(/@www\./, '@');
+  return /^[a-z0-9._%+'-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(first) ? first : null;
 }
 
 /** First 4-digit year in the value, accepted only if 1900 ≤ year ≤ current year. */

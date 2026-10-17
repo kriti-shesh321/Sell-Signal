@@ -89,7 +89,11 @@ describe('email', () => {
   it('lowercases and strips mailto', () => {
     expect(email('mailto:Info@Example.com')).toBe('info@example.com');
   });
-  it('rejects invalid addresses', () => {
+  it('drops a www. host', () => {
+    expect(email('service@www.jdprecisionplumbing.com')).toBe('service@jdprecisionplumbing.com');
+  });
+  it('rejects invalid and masked addresses', () => {
+    expect(email('sc********@***********ac.com')).toBeNull();
     expect(email('not-an-email')).toBeNull();
     expect(email('N/A')).toBeNull();
   });
