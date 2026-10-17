@@ -1,6 +1,6 @@
 import { createApp } from './app.js';
 import { loadConfig } from './config.js';
-import { migrate } from './db/migrate.js';
+import { migrateWithRetry } from './db/migrate.js';
 import { createDb } from './db/pool.js';
 import { pgRepo } from './db/repo.js';
 import { pgDomainCache } from './enrich/cache.js';
@@ -21,7 +21,7 @@ try {
 configureNetwork();
 const config = loadConfig();
 const db = createDb(config.DATABASE_URL);
-await migrate(db);
+await migrateWithRetry(db, { log: (m) => console.log(`[db] ${m}`) });
 console.log('migrations applied');
 
 const repo = pgRepo(db);

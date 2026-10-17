@@ -35,7 +35,7 @@ describe('whyCall', () => {
 
   it('founder without a known year', () => {
     expect(whyCall({ ...base, ownerName: 'Randy Bellomy', ownerRole: 'founder' }, { yearsInBusiness: null, underDigitized: false })).toBe(
-      'founded by R. Bellomy: ask for the current owner · TX plumbing.',
+      'Founded by R. Bellomy: ask for the current owner · TX plumbing.',
     );
   });
 
@@ -51,6 +51,12 @@ describe('whyCall', () => {
     const lead = { ...smithPlumbing(), company: 'Benjamin Franklin Plumbing & Drain Services of Duncanville' };
     const r = scoreEnriched(lead, lead.validation, defaultBuyBox(['TX']), NOW);
     expect(r).toMatchObject({ tier: 'C', whyCall: 'Likely not a fit: franchise/PE-owned.' });
+  });
+
+  it('starts with a capital letter when the first fragment is the owner', () => {
+    expect(whyCall({ ...base, ownerName: 'Drew Marsh', ownerRole: 'owner', industry: 'electrical' }, { yearsInBusiness: null, underDigitized: false })).toBe(
+      'Owner D. Marsh · TX electrical.',
+    );
   });
 
   it('no signals → limited info', () => {

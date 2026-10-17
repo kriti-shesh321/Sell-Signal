@@ -61,5 +61,6 @@ export function whyCall(lead: WhyCallInput, result: Pick<ScoreResult, 'yearsInBu
   if ((years !== null && years >= 20) || lead.familyOwned) angles.push('succession');
   if (result.underDigitized) angles.push('modernization');
   const angle = angles.length ? ` → ${angles.join(' + ')} angle` : '';
-  return `${fragments.join(' · ')}${angle}.${askOwner}`;
+  const line = `${fragments.join(' · ')}${angle}.${askOwner}`;
+  return line.charAt(0).toUpperCase() + line.slice(1); // "owner D. Marsh · …" → "Owner D. Marsh · …"
 }
