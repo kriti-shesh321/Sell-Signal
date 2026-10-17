@@ -1,21 +1,20 @@
 import type { Theme } from '../lib/useTheme'
 
+/** Pill that shows the current theme and switches to the other one. */
 export function ThemeToggle({ theme, onChange }: { theme: Theme; onChange: (t: Theme) => void }) {
+  const next = theme === 'dark' ? 'light' : 'dark'
   return (
-    <div role="group" aria-label="Color theme" className="flex rounded-full border border-line bg-panel2 p-0.5 text-xs">
-      {(['dark', 'light'] as const).map((t) => (
-        <button
-          key={t}
-          type="button"
-          aria-pressed={theme === t}
-          onClick={() => onChange(t)}
-          className={`rounded-full px-3 py-1 capitalize transition ${
-            theme === t ? 'bg-panel3 font-semibold text-tx' : 'text-tx3 hover:text-tx2'
-          }`}
-        >
-          {t}
-        </button>
-      ))}
-    </div>
+    <button
+      type="button"
+      onClick={() => onChange(next)}
+      aria-label={`Switch to ${next} theme`}
+      className="flex h-9 items-center gap-2 rounded-full border border-line2 bg-panel px-3.5 text-[13px] font-medium text-tx2 transition hover:border-tx3 hover:text-tx"
+    >
+      <span
+        aria-hidden
+        className={`size-3 rounded-full ${theme === 'dark' ? 'bg-tx2 shadow-[inset_-4px_-1px_0_0_var(--panel)]' : 'bg-tier-b'}`}
+      />
+      {theme === 'dark' ? 'Dark' : 'Light'}
+    </button>
   )
 }
