@@ -41,6 +41,14 @@ describe('mapOsmElements (osm-test.json fixture)', () => {
     expect(leads[0]!.raw).toMatchObject({ osmType: 'node', osmId: 1681681417 });
   });
 
+  it('formats units: "Suite 309" as written, a bare number with #', () => {
+    const mk = (unit: string) =>
+      mapOsmElements({ elements: [{ type: 'node', id: 1, tags: { name: 'X', 'addr:housenumber': '12', 'addr:street': 'Elm St', 'addr:unit': unit } }] })[0]!.street;
+    expect(mk('Suite 309')).toBe('12 Elm St Suite 309');
+    expect(mk('309')).toBe('12 Elm St #309');
+    expect(mk('B')).toBe('12 Elm St #B');
+  });
+
   it('fills a missing addr:state from the search area', () => {
     const george = leads.find((l) => l.company === 'George Plumbing Co.');
     expect(george?.state).toBe('TX');

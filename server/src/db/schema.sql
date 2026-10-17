@@ -51,3 +51,8 @@ CREATE TABLE IF NOT EXISTS domain_cache (
   status      text NOT NULL CHECK (status IN ('ok','blocked','unreachable','robots_disallowed')),
   fetched_at  timestamptz NOT NULL DEFAULT now()
 );
+
+-- Added after the first release of the schema; idempotent.
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS owner_role text;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS filled jsonb NOT NULL DEFAULT '[]'::jsonb;
+CREATE INDEX IF NOT EXISTS runs_status_idx ON runs (status);

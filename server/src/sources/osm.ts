@@ -47,7 +47,8 @@ export function mapOsmElements(json: OverpassResponse, opts: { defaultState?: st
       website: t.website ?? t['contact:website'] ?? null,
       phone: t.phone ?? t['contact:phone'] ?? null,
       email: t.email ?? t['contact:email'] ?? null,
-      street: street ? (unit ? `${street} #${unit}` : street) : null,
+      // "Suite 309" stays as written; a bare "309" or "B" becomes "#309"
+      street: street ? (unit ? `${street} ${/^[A-Za-z]{2,}/.test(unit) ? unit : `#${unit}`}` : street) : null,
       city: t['addr:city'] ?? null,
       state: t['addr:state'] ?? opts.defaultState ?? null,
       industry: tradeFromOsmCraft(t.craft),

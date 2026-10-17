@@ -46,6 +46,13 @@ describe('whyCall', () => {
     expect(whyCall({ ...base, nonprofit: true }, { yearsInBusiness: null, underDigitized: false })).toBe('Likely not a fit: nonprofit/public.');
   });
 
+  it('a brand-list franchise also reads "likely not a fit"', async () => {
+    const { scoreEnriched } = await import('../../src/score/index.js');
+    const lead = { ...smithPlumbing(), company: 'Benjamin Franklin Plumbing & Drain Services of Duncanville' };
+    const r = scoreEnriched(lead, lead.validation, defaultBuyBox(['TX']), NOW);
+    expect(r).toMatchObject({ tier: 'C', whyCall: 'Likely not a fit: franchise/PE-owned.' });
+  });
+
   it('no signals → limited info', () => {
     expect(whyCall(base, { yearsInBusiness: null, underDigitized: false })).toBe('Limited public info: verify basics on the call.');
   });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { defaultBuyBox, scoreLead, tierFor, topReasons, type BuyBox, type ScoringInput } from '../../src/score/index.js';
+import { defaultBuyBox, franchiseBrand, scoreLead, tierFor, topReasons, type BuyBox, type ScoringInput } from '../../src/score/index.js';
 import { f, modernSignals, okValidation, smithPlumbing } from '../helpers/smithPlumbing.js';
 
 const NOW = new Date('2026-06-01T00:00:00Z');
@@ -136,5 +136,54 @@ describe('signals', () => {
   it('top reasons: 3 largest by |points|, negatives included', () => {
     const r = score({ signals: modernSignals({ franchise: f(true as const, 'franchise'), copyrightYear: f(2019, '© 2019') }) });
     expect(topReasons(r.reasons).map((x) => x.key)).toEqual(['franchise', 'age20', 'industry']);
+  });
+});
+
+describe('not-a-fit cap and franchise brands', () => {
+  const score = (over: Partial<ScoringInput>) => scoreLead({ ...smithPlumbing(), ...over }, plumbingTx, NOW);
+
+  it('a franchise signal caps the tier at C even when the points say B', () => {
+    const r = score({ signals: modernSignals({ familyOwned: f(true as const, 'family'), copyrightYear: f(2019, '© 2019'), franchise: f(true as const, 'a franchise') }) });
+    expect(r.score).toBe(55); // 85 − 30
+    expect(r).toMatchObject({ tier: 'C', notAFit: true });
+  });
+
+  it('a nonprofit signal caps the tier at C', () => {
+    const r = score({ signals: modernSignals({ familyOwned: f(true as const, 'family'), nonprofit: f(true as const, '501(c)(3)') }) });
+    expect(r.tier).toBe('C');
+  });
+
+  it('a known franchise brand in the company name counts as franchise', () => {
+    const r = score({ company: 'Benjamin Franklin Plumbing & Drain Services of Duncanville' });
+    expect(r.reasons.find((x) => x.key === 'franchise')).toMatchObject({
+      points: -30,
+      source: 'brand list',
+      evidence: 'name matches a known franchise brand (Benjamin Franklin Plumbing)',
+    });
+    expect(r.tier).toBe('C');
+  });
+
+  it('the site signal and the brand list never double-count', () => {
+    const r = score({ company: 'Mr. Rooter Plumbing of Dallas', signals: modernSignals({ franchise: f(true as const, 'independently owned and operated') }) });
+    expect(r.reasons.filter((x) => x.key === 'franchise')).toHaveLength(1);
+  });
+
+  it.each([
+    ['Mr. Rooter Plumbing of Austin', 'Mr. Rooter'],
+    ['Roto-Rooter Plumbing & Water Cleanup', 'Roto-Rooter'],
+    ['One Hour Heating & Air Conditioning of Plano', 'One Hour Heating & Air'],
+    ['Mister Sparky of Houston', 'Mister Sparky'],
+    ['Aire Serv of Fort Worth', 'Aire Serv'],
+    ['ARS / Rescue Rooter Dallas', 'ARS / Rescue Rooter'],
+    ['Service Experts Heating & Air Conditioning', 'Service Experts'],
+    ['Mr. Electric of Waco', 'Mr. Electric'],
+    ['Kinetico of San Antonio', 'Kinetico'],
+    ['Culligan Water of El Paso', 'Culligan'],
+  ])('brand: %s', (company, brand) => {
+    expect(franchiseBrand(company)).toBe(brand);
+  });
+
+  it.each(['Cars & Stars Plumbing', 'Benjamin Plumbing', 'Expert Electric', 'Smith Plumbing'])('not a brand: %s', (company) => {
+    expect(franchiseBrand(company)).toBeNull();
   });
 });

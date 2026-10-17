@@ -4,6 +4,7 @@ import { getTrade } from '../sources/trades.js';
 import type { FieldSource, Industry, OwnerRole } from '../types.js';
 import type { Validation } from '../validate/validate.js';
 import type { BuyBox, WeightKey } from './buybox.js';
+import { franchiseBrand } from './brands.js';
 
 export type ReasonKey = WeightKey | 'siteIssue';
 
@@ -24,10 +25,13 @@ export interface ScoreResult {
   reasons: Reason[];
   yearsInBusiness: number | null;
   underDigitized: boolean;
+  /** A franchise/PE or nonprofit signal fired: tier is capped at C. */
+  notAFit: boolean;
 }
 
 /** What scoring needs to know about a lead (an EnrichedLead plus its validation). */
 export interface ScoringInput {
+  company?: string | null;
   industry: Industry | null;
   state: string | null;
   phone: string | null;
@@ -115,7 +119,9 @@ export function scoreLead(lead: ScoringInput, buybox: BuyBox, now: Date = new Da
   }
 
   const franchise = lead.signals?.franchise;
+  const brand = franchiseBrand(lead.company);
   if (franchise) add('franchise', 'Franchise / subsidiary / PE-owned', franchise.evidence, franchise.source, w.franchise);
+  else if (brand) add('franchise', 'Franchise / subsidiary / PE-owned', `name matches a known franchise brand (${brand})`, 'brand list', w.franchise);
   const nonprofit = lead.signals?.nonprofit;
   if (nonprofit) add('nonprofit', 'Nonprofit / public', nonprofit.evidence, nonprofit.source, w.nonprofit);
 
@@ -125,7 +131,9 @@ export function scoreLead(lead: ScoringInput, buybox: BuyBox, now: Date = new Da
   const raw = reasons.reduce((sum, r) => sum + r.points, 0);
   const score = Math.max(0, Math.min(100, raw));
   reasons.sort((a, b) => Math.abs(b.points) - Math.abs(a.points));
-  return { score, tier: tierFor(score), reasons, yearsInBusiness: years, underDigitized: dated !== null };
+  // Already owned (franchise/PE) or not for sale (nonprofit/public): never a call-first lead, whatever the points.
+  const notAFit = reasons.some((r) => r.key === 'franchise' || r.key === 'nonprofit');
+  return { score, tier: notAFit ? 'C' : tierFor(score), reasons, yearsInBusiness: years, underDigitized: dated !== null, notAFit };
 }
 
 /** The chips shown in the table: top 3 by |points|, flags excluded. */

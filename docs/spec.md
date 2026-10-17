@@ -199,7 +199,7 @@ No baseline points: every point comes from one of these signals.
 | `nonprofit` | Nonprofit / public (`.gov`, `.edu`, "non-profit", "501(c)") | −40 |
 | `siteIssue` | Site unreachable, blocked, or disallowed by robots.txt | 0 (shown as a flag) |
 
-The total is clamped to 0–100. **Tier A ≥ 70 · B 45–69 · C < 45.** Weights can be overridden per run (each between −100 and 100). Each fired signal becomes a reason `{key, label, evidence, source, points}`. The UI shows the top 3 by |points|, and the full breakdown on demand.
+The total is clamped to 0–100. **Tier A ≥ 70 · B 45–69 · C < 45.** **Not-a-fit cap:** a lead with a franchise/PE or nonprofit signal is tier C whatever its score, so it never reaches the call sheet. Besides website wording, a company name matching a known franchise brand (Benjamin Franklin Plumbing, Mr. Rooter, Roto-Rooter, One Hour Heating & Air, Mister Sparky, Aire Serv, ARS / Rescue Rooter, Service Experts, Mr. Electric, Kinetico, Culligan) counts as the franchise signal, with evidence "name matches a known franchise brand" and source "brand list". Weights can be overridden per run (each between −100 and 100). Each fired signal becomes a reason `{key, label, evidence, source, points}`. The UI shows the top 3 by |points|, and the full breakdown on demand.
 
 **Why-call line (template):** fragments in order: "Family-owned" / "Est." + "since {year} ({n} yrs)" · "owner {F. Last}" · "{ST} {trade}" · "dated website" → angle: "succession" if age ≥ 20 or family-owned, "modernization" if under-digitized. Then "Owner not listed: ask for the owner." when no owner was found. Negative signals produce "Likely not a fit: {franchise/PE-owned | nonprofit}". No signals produce "Limited public info: verify basics on the call."
 
@@ -210,9 +210,9 @@ Exports apply the same filters as the results list, so the exported rows match t
 
 | Format | File | Columns |
 |---|---|---|
-| CSV | `sellsignal-leads.csv` | company, website, domain, phone, phone_valid, email, email_domain_accepts_mail, street, city, state, industry, year_founded, years_in_business, owner_name, family_owned, franchise_or_pe, nonprofit, size (`not estimated`), revenue (`not estimated`), score, tier, top_reasons, why_call, site_status, sources, merged_from, completeness_before, completeness_after |
-| Call sheet | `sellsignal-callsheet.csv` | **Tiers A + B only**, ranked: rank, tier, score, company, phone, owner_name (or "ask for owner"), city, state, why_call, outcome, notes, follow_up_date (the last three empty, for the caller) |
-| HubSpot | `sellsignal-hubspot.csv` | HubSpot **Company** properties only: Company name, Company Domain Name, Website URL, Phone Number, Street Address, City, State/Region, Industry, Year Founded, Description (= "SellSignal {tier} {score} · {why_call}") |
+| CSV | `sellsignal-leads.csv` | company, website, domain, phone, phone_valid, email, email_domain_accepts_mail, street, city, state, industry, year_founded, years_in_business, owner_name, owner_role, family_owned, franchise_or_pe, nonprofit, size (`not estimated`), revenue (`not estimated`), score, tier, top_reasons, why_call, site_status, sources, merged_from, completeness_before, completeness_after |
+| Call sheet | `sellsignal-callsheet.csv` | **Tiers A + B only**, ranked: rank, tier, score, company, phone, owner_name ("(founder)" when the name is a founder; "ask for owner" when none), city, state, why_call, outcome, notes, follow_up_date (the last three empty, for the caller) |
+| HubSpot | `sellsignal-hubspot.csv` | HubSpot **Company** properties only, using HubSpot's default property labels: Company name, Company domain name, Website URL, Phone number, Street address, City, State/Region, Industry, Year founded, Description. Industry is a HubSpot dropdown, so the four trades map to its "Construction" option and the trade is named in Description (= "SellSignal {tier} {score} · {trade} · {why_call}"). |
 
 ### 15.6 API additions
 Beyond §11: `GET /api/health` (API + DB status), `GET /api/meta` (trades, states, limits, default weights), `POST /api/runs/:id/cancel`. Run statuses: `queued`, `running`, `done`, `failed`, `cancelled`. Run IDs are UUIDs. `PUT /buybox` returns 409 while a run is still running.
