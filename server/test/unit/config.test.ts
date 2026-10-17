@@ -18,11 +18,7 @@ describe('loadConfig', () => {
     expect(config.PORT).toBe(8080);
     expect(config.CRAWL_CONCURRENCY).toBe(5);
     expect(config.AI_FALLBACK).toBe('off');
-    expect(config.AI_PROVIDER).toBe('gemini');
     expect(config.corsOrigins).toEqual(['http://localhost:5173', 'https://app.netlify.app']);
   });
 
-  it('rejects an invalid AI_PROVIDER', () => {
-    expect(() => loadConfig({ DATABASE_URL: 'postgresql://x', AI_PROVIDER: 'openai' })).toThrow(/AI_PROVIDER/);
-  });
 });

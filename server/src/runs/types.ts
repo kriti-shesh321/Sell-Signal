@@ -1,3 +1,4 @@
+import { disabledAiStats, type AiStats } from '../enrich/ai/index.js';
 import type { SiteSignals } from '../enrich/extract/index.js';
 import type { SiteState } from '../pipeline/applyFacts.js';
 import type { BuyBox, Reason, Tier } from '../score/index.js';
@@ -21,7 +22,7 @@ export interface RunStats {
   topSignals: Array<{ key: string; label: string; count: number }>;
   /** % of unique leads that have the field after enrichment */
   fillRates: { phone: number; email: number; yearFounded: number; ownerName: number };
-  ai: { enabled: boolean; calls: number };
+  ai: AiStats;
   timings: { startedAt: string | null; finishedAt: string | null; elapsedMs: number; avgSiteMs: number };
   notice: string | null;
   warnings: string[];
@@ -84,7 +85,7 @@ export function emptyStats(): RunStats {
     tiers: { A: 0, B: 0, C: 0 },
     topSignals: [],
     fillRates: { phone: 0, email: 0, yearFounded: 0, ownerName: 0 },
-    ai: { enabled: false, calls: 0 },
+    ai: disabledAiStats(),
     timings: { startedAt: null, finishedAt: null, elapsedMs: 0, avgSiteMs: 0 },
     notice: null,
     warnings: [],

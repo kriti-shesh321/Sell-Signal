@@ -1,5 +1,6 @@
 import request from 'supertest';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import type { AiInput } from '../../src/enrich/ai/prompt.js';
 import { CALLSHEET_HEADER, CSV_HEADER, HUBSPOT_HEADER } from '../../src/export/formats.js';
 import { testApp } from '../helpers/apiApp.js';
 
@@ -266,5 +267,50 @@ describe('GET /api/runs/:id/export', () => {
     const ctx = testApp();
     const { body } = await startDiscovery(ctx, { trade: 'hvac', state: 'TX' });
     expect((await request(ctx.app).get(`/api/runs/${body.runId}/export?format=pdf`)).status).toBe(400);
+  });
+});
+
+describe('AI fallback in a run', () => {
+  const flores = {
+    ownerName: 'Richard Flores',
+    ownerRole: 'founder' as const,
+    ownerQuote: 'Richard Flores started Air-Stream in 1974 with one truck',
+    foundedYear: null,
+    foundedQuote: null,
+    familyOwned: null,
+    familyQuote: null,
+  };
+
+  it('fills an owner the rules missed, labelled AI; rescoring keeps it', async () => {
+    const extract = vi.fn(async (input: AiInput) =>
+      input.company?.startsWith('Air-Stream') ? flores : { ...flores, ownerName: 'Made Up', ownerQuote: 'Made Up owns this business' },
+    );
+    const ctx = testApp({ ai: { model: 'gemini-test', extract } });
+    const res = await startDiscovery(ctx, { trade: 'hvac', state: 'TX' });
+    // Only sites that were read and where the rules missed owner or year are sent: Air-Stream (no owner).
+    expect(extract).toHaveBeenCalledOnce();
+
+    const run = await request(ctx.app).get(`/api/runs/${res.body.runId}`);
+    expect(run.body.stats.ai).toMatchObject({ enabled: true, model: 'gemini-test', calls: 1, errors: 0, filled: { ownerName: 1 } });
+
+    const leads = await request(ctx.app).get(`/api/runs/${res.body.runId}/leads`);
+    const air = leads.body.items.find((l: { domain: string }) => l.domain === 'air-streamservices.com');
+    expect(air.ownerName).toBe('Richard Flores');
+    expect(air.fieldSources.ownerName).toMatchObject({ method: 'AI', source: 'AI (gemini-test) from website:/About-air-stream.html' });
+    expect(air.reasons).toContainEqual(expect.objectContaining({ key: 'owner', label: 'Founder: Richard Flores', source: expect.stringMatching(/^AI /) }));
+
+    await request(ctx.app).put(`/api/runs/${res.body.runId}/buybox`).send({ states: [] }).expect(200);
+    const after = await request(ctx.app).get(`/api/runs/${res.body.runId}/leads`);
+    const air2 = after.body.items.find((l: { domain: string }) => l.domain === 'air-streamservices.com');
+    expect(air2.reasons.find((r: { key: string }) => r.key === 'owner')).toBeTruthy();
+    expect(air2.score).toBe(air.score - 5);
+  });
+
+  it('a failing provider leaves the rules-only result standing', async () => {
+    const ctx = testApp({ ai: { model: 'gemini-test', extract: async () => { throw new Error('boom'); } } });
+    const res = await startDiscovery(ctx, { trade: 'hvac', state: 'TX' });
+    const run = await request(ctx.app).get(`/api/runs/${res.body.runId}`);
+    expect(run.body).toMatchObject({ status: 'done' });
+    expect(run.body.stats.ai).toMatchObject({ calls: 1, errors: 1, filled: { ownerName: 0 } });
   });
 });

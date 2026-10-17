@@ -1,7 +1,9 @@
 import pLimit from 'p-limit';
+import type { AiFacts, AiRun } from '../enrich/ai/index.js';
 import type { SiteStatus } from '../enrich/cache.js';
+import type { FetchedPage } from '../enrich/crawl.js';
 import type { SiteFacts } from '../enrich/extract/index.js';
-import { applySiteFacts } from '../pipeline/applyFacts.js';
+import { applyAiFacts, applySiteFacts } from '../pipeline/applyFacts.js';
 import { completeness } from '../pipeline/completeness.js';
 import { dedupe } from '../pipeline/dedupe.js';
 import { normalizeLead } from '../pipeline/normalize.js';
@@ -17,6 +19,10 @@ export interface SiteResult {
   facts: SiteFacts | null;
   cached: boolean;
   ms: number;
+  /** Fetched pages (fresh crawls only), for the AI fallback. Never stored. */
+  html?: FetchedPage[];
+  /** AI answer cached with the site snapshot by an earlier run. */
+  ai?: AiFacts;
 }
 
 export interface LoadResult {
@@ -32,6 +38,8 @@ export interface JobDeps {
   crawl: (domain: string) => Promise<SiteResult>;
   /** A fresh, memoized MX lookup per run. */
   mx: () => MxLookup;
+  /** Optional AI fallback, one per run (its own call cap and stats). */
+  ai?: () => AiRun;
   concurrency: number;
   now?: () => Date;
   /** Minimum gap between progress writes to runs.stats. */
@@ -148,6 +156,8 @@ export class JobRunner {
       await flush(true);
 
       const mx = this.deps.mx();
+      const ai = this.deps.ai?.() ?? null;
+      if (ai) stats.ai = ai.stats;
       const limit = pLimit(this.deps.concurrency);
       let crawlMs = 0;
       let crawled = 0;
@@ -174,6 +184,10 @@ export class JobRunner {
               stats.sites.noWebsite++;
             }
             const enriched = applySiteFacts(m, site);
+            if (ai && site && m.domain && (enriched.ownerName === null || enriched.yearFounded === null)) {
+              const facts = await ai.fill(m.domain, site, m.company);
+              if (facts) for (const f of applyAiFacts(enriched, facts)) ai.stats.filled[f]++;
+            }
             const validation = await validateLead(enriched, mx);
             const scored = scoreEnriched(enriched, validation, run.buybox, now());
             const patch = {

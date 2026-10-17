@@ -12,6 +12,9 @@ export interface RunPatch {
 
 export type LeadPatch = Partial<Omit<LeadRecord, 'id' | 'runId'>>;
 
+/** New score for one lead after a buy-box change. */
+export type ScoreUpdate = Pick<LeadRecord, 'id' | 'score' | 'tier' | 'reasons' | 'whyCall'>;
+
 /** Storage for runs and leads. Postgres in production, in-memory in tests. */
 export interface Repo {
   createRun(input: { sourceType: RunSourceType; params: Record<string, unknown>; buybox: BuyBox; stats: RunStats }): Promise<RunRecord>;
@@ -19,6 +22,8 @@ export interface Repo {
   updateRun(id: string, patch: RunPatch): Promise<void>;
   insertLeads(runId: string, leads: NewLead[]): Promise<LeadRecord[]>;
   updateLead(id: string, patch: LeadPatch): Promise<void>;
+  /** Write many leads' scores in one round trip (rescoring). */
+  updateScores(updates: ScoreUpdate[]): Promise<void>;
   listLeads(runId: string): Promise<LeadRecord[]>;
   /** Runs left queued/running by a crash or restart are marked failed. Returns how many. */
   failOrphanedRuns(message: string): Promise<number>;
@@ -146,6 +151,15 @@ export function pgRepo(db: Pick<Db, 'query'>): Repo {
       if (!sets.length) return;
       values.push(id);
       await db.query(`UPDATE leads SET ${sets.join(', ')} WHERE id = $${values.length}`, values);
+    },
+    async updateScores(updates) {
+      if (!updates.length) return;
+      await db.query(
+        `UPDATE leads AS l SET score = v.score, tier = v.tier, reasons = v.reasons, why_call = v.why_call
+           FROM jsonb_to_recordset($1::jsonb) AS v(id uuid, score int, tier text, reasons jsonb, why_call text)
+          WHERE l.id = v.id`,
+        [JSON.stringify(updates.map((u) => ({ id: u.id, score: u.score, tier: u.tier, reasons: u.reasons, why_call: u.whyCall })))],
+      );
     },
     async listLeads(runId) {
       if (!isUuid(runId)) return [];

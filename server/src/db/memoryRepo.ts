@@ -36,6 +36,9 @@ export function memoryRepo(): Repo & { runs: Map<string, RunRecord>; leads: Map<
       const l = leads.get(id);
       if (l) leads.set(id, { ...l, ...clone(patch) });
     },
+    async updateScores(updates) {
+      for (const { id, ...patch } of updates) await this.updateLead(id, patch);
+    },
     async listLeads(runId) {
       return [...leads.values()].filter((l) => l.runId === runId).map(clone);
     },

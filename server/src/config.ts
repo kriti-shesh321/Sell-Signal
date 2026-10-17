@@ -15,11 +15,10 @@ const EnvSchema = z.object({
   CACHE_TTL_DAYS: z.coerce.number().positive().default(7),
   CACHE_TTL_UNREACHABLE_DAYS: z.coerce.number().positive().default(1),
   AI_FALLBACK: onOff,
-  AI_PROVIDER: z.enum(['gemini', 'anthropic']).default('gemini'),
   AI_MODEL: z.string().optional(),
   AI_MAX_CALLS_PER_RUN: z.coerce.number().int().nonnegative().default(25),
+  AI_REQUESTS_PER_MINUTE: z.coerce.number().int().positive().default(15),
   GEMINI_API_KEY: z.string().optional(),
-  ANTHROPIC_API_KEY: z.string().optional(),
 });
 
 export type Config = z.infer<typeof EnvSchema> & { corsOrigins: string[] };

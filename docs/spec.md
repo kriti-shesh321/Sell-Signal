@@ -80,7 +80,7 @@ Rows in (per source) → duplicates merged → unique · field completeness **be
 - **Frontend:** React + Vite + TS + **Tailwind CSS** (implementing the Claude Design output) → static on **Netlify**. Responsive (mobile → desktop).
 - **API:** Node + Express + TS → long-running service on **Railway**. (Serverless times out on multi-minute enrichment jobs; Render's free tier sleeps and kills background jobs.)
 - **DB:** PostgreSQL on **Neon** (serverless Postgres; the API connects with the direct, unpooled URL over TLS). Cache = `domain_cache` table in Postgres, 7-day TTL. **No Redis in v1** (one less service). Scale path: Redis + BullMQ workers.
-- **Libraries:** `csv-parse`, `cheerio`, `undici`, `p-limit`, `robots-parser`, `dns/promises`, `pg`. AI fallback: Gemini or Claude API (provider chosen by `AI_PROVIDER`).
+- **Libraries:** `csv-parse`, `cheerio`, `undici`, `p-limit`, `robots-parser`, `dns/promises`, `pg`. AI fallback: Gemini (`@google/genai`).
 
 ## 10. Data model
 ```
@@ -221,6 +221,7 @@ Beyond §11: `GET /api/health` (API + DB status), `GET /api/meta` (trades, state
 Pages: `/` plus at most one about-like and one contact-like page found in the homepage links (same host, max 3 pages, sequential per domain). Retry once with backoff on network errors and 5xx only. Blocked responses (403/429, Cloudflare challenge headers, CAPTCHA markers) are never retried. Robots.txt is checked per page with the UA token `SellSignal`. The cache stores extracted facts, not raw HTML. MX lookups time out after 3 s, which counts as "no".
 
 ### 15.8 AI fallback (optional, off by default)
-- Enabled with `AI_FALLBACK=on`. The default provider is **Gemini**, using the cheapest current Flash-Lite model available to new projects (`gemini-3.1-flash-lite` at the time of writing; overridable with `AI_MODEL`). Anthropic is an optional switch (`AI_PROVIDER=anthropic`, default `claude-haiku-5-5`).
-- It runs only when the rules missed the owner name or founding year, with a cap of 25 calls per run, and the result is cached with the domain.
-- **Grounding guard:** an AI-suggested owner name is accepted only if it appears verbatim in the page text; a year only if it appears in the text and passes R5. AI-sourced values are labelled as such. Provider errors are skipped, so the rules-only result always stands.
+- Enabled with `AI_FALLBACK=on` and `GEMINI_API_KEY`. Provider: **Gemini** only, with the cheapest stable Flash-Lite model open to new projects (`gemini-3.1-flash-lite`; overridable with `AI_MODEL`).
+- It runs only when the rules missed the owner name or founding year on a site that was read, with a cap of 25 calls per run (`AI_MAX_CALLS_PER_RUN`), spaced to `AI_REQUESTS_PER_MINUTE` (default 15, the free-tier limit). A rate-limit or quota error stops the AI pass for the run.
+- The answer is cached with the domain (`domain_cache.data.ai`) under its own `AI_VERSION`, so `EXTRACTOR_VERSION` is not bumped for AI changes. A cached site without an AI answer has its pages fetched again for the AI pass.
+- **Grounding guard:** every AI value comes with the sentence it was taken from. The sentence must appear verbatim in the page text and contain the value. An owner must pass the person-name check, and is a founder only if the sentence uses founding words. A year must pass R5 and not come from a © line. Family-owned must be said in family words. AI values only fill empty fields, carry the source `AI ({model}) from website:{path}` and are shown with an "AI" tag. Provider errors are skipped, so the rules-only result always stands.

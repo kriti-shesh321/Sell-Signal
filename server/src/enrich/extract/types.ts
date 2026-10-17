@@ -1,4 +1,4 @@
-export type Method = 'JSON-LD' | 'microdata' | 'text' | 'tel: link' | 'mailto: link' | 'meta';
+export type Method = 'JSON-LD' | 'microdata' | 'text' | 'tel: link' | 'mailto: link' | 'meta' | 'AI';
 
 /** A value found on the site, with where and how it was found. */
 export interface Found<T> {

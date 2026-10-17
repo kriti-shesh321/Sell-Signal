@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { createApp } from '../../src/app.js';
+import { createAiRun, type AiClient } from '../../src/enrich/ai/index.js';
+import { memoryDomainCache } from '../../src/enrich/cache.js';
 import { memoryRepo } from '../../src/db/memoryRepo.js';
 import type { FetchedPage } from '../../src/enrich/crawl.js';
 import { extractSite } from '../../src/enrich/extract/index.js';
@@ -20,19 +22,34 @@ export function stubCrawl(calls: string[] = [], delayMs = 0): (domain: string) =
     const site = FIXTURE_SITES.find((s) => s.domain === domain);
     if (site) {
       const pages: FetchedPage[] = site.pages.map(([role, path, file]) => ({ role, path, url: site.finalUrl + path.slice(1), html: html(file) }));
-      return { status: 'ok', facts: extractSite(pages, site.finalUrl, NOW), cached: false, ms: 120 };
+      return { status: 'ok', facts: extractSite(pages, site.finalUrl, NOW), cached: false, ms: 120, html: pages };
     }
     if (domain === 'vanderfordair.com') return { status: 'blocked', facts: null, cached: false, ms: 80 };
     return { status: 'unreachable', facts: null, cached: false, ms: 50 };
   };
 }
 
-export function testApp(opts: { overpassDown?: boolean; crawlCalls?: string[]; crawlDelayMs?: number } = {}) {
+export function testApp(opts: { overpassDown?: boolean; crawlCalls?: string[]; crawlDelayMs?: number; ai?: AiClient } = {}) {
   const repo = memoryRepo();
+  const crawl = stubCrawl(opts.crawlCalls, opts.crawlDelayMs);
+  const aiClient = opts.ai;
   const runner = new JobRunner({
     repo,
     concurrency: 3,
-    crawl: stubCrawl(opts.crawlCalls, opts.crawlDelayMs),
+    crawl,
+    ...(aiClient && {
+      ai: () =>
+        createAiRun({
+          client: aiClient,
+          maxCalls: 10,
+          cache: memoryDomainCache({ days: 7, unreachableDays: 1 }, () => NOW),
+          recrawl: async (d) => {
+            const r = await crawl(d);
+            return { status: r.status, html: r.html ?? [] };
+          },
+          now: () => NOW,
+        }),
+    }),
     mx: () => async (domain) => (domain === 'nomail.test' ? null : `mx.${domain}`),
     now: () => NOW,
     statsIntervalMs: 0,

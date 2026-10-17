@@ -1,4 +1,5 @@
 import type { SiteStatus } from '../enrich/cache.js';
+import type { AiFacts } from '../enrich/ai/index.js';
 import type { Found, SiteFacts, SiteSignals } from '../enrich/extract/index.js';
 import type { LeadField, MergedLead } from '../types.js';
 
@@ -47,4 +48,31 @@ export function applySiteFacts(lead: MergedLead, site: { status: SiteStatus; fac
     fill('state', facts.address.value.state, facts.address);
   }
   return out;
+}
+
+/**
+ * Fill what the rules left empty with grounded AI facts (owner, founding year, family-owned).
+ * Returns the names of the facts it filled.
+ */
+export function applyAiFacts(lead: EnrichedLead, ai: AiFacts): Array<'ownerName' | 'yearFounded' | 'familyOwned'> {
+  const done: Array<'ownerName' | 'yearFounded' | 'familyOwned'> = [];
+  const record = (field: 'ownerName' | 'yearFounded', from: Found<unknown>) => {
+    lead.fieldSources[field] = { source: from.source, method: from.method, evidence: from.evidence };
+    lead.filled.push(field);
+    done.push(field);
+  };
+  if (lead.ownerName === null && ai.ownerName) {
+    lead.ownerName = ai.ownerName.value;
+    lead.ownerRole = ai.ownerName.role;
+    record('ownerName', ai.ownerName);
+  }
+  if (lead.yearFounded === null && ai.yearFounded) {
+    lead.yearFounded = ai.yearFounded.value;
+    record('yearFounded', ai.yearFounded);
+  }
+  if (lead.signals && !lead.signals.familyOwned && ai.familyOwned) {
+    lead.signals = { ...lead.signals, familyOwned: ai.familyOwned };
+    done.push('familyOwned');
+  }
+  return done;
 }
