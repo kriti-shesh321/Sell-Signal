@@ -1,4 +1,4 @@
-import type { Meta, RunView, StartedRun } from './types'
+import type { ExportFormat, LeadList, Meta, RunView, StartedRun } from './types'
 
 export const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8080').replace(/\/$/, '')
 
@@ -49,4 +49,34 @@ export function importSample() {
   const form = new FormData()
   form.append('sample', 'true')
   return call<StartedRun>('/api/runs/import', { method: 'POST', body: form })
+}
+
+export const getLeads = (id: string, query: URLSearchParams, signal?: AbortSignal) =>
+  call<LeadList>(`/api/runs/${encodeURIComponent(id)}/leads${query.toString() ? `?${query}` : ''}`, { signal })
+
+/** Download an export with the current filters; returns the file name and row count for the toast. */
+export async function downloadExport(id: string, format: ExportFormat, query: URLSearchParams) {
+  const q = new URLSearchParams(query)
+  q.set('format', format)
+  let res: Response
+  try {
+    res = await fetch(`${API_URL}/api/runs/${encodeURIComponent(id)}/export?${q}`)
+  } catch {
+    throw new ApiError("Couldn't reach the SellSignal API to download the export.", 0, 'NETWORK')
+  }
+  if (!res.ok) {
+    const body = await res.json().catch(() => null)
+    throw new ApiError(body?.error?.message ?? `Export failed (HTTP ${res.status})`, res.status, body?.error?.code ?? 'HTTP')
+  }
+  const fileName = /filename="([^"]+)"/.exec(res.headers.get('content-disposition') ?? '')?.[1] ?? `sellsignal-${format}.csv`
+  const rows = Number(res.headers.get('x-row-count') ?? 0)
+  const url = URL.createObjectURL(await res.blob())
+  const a = document.createElement('a')
+  a.href = url
+  a.download = fileName
+  document.body.append(a)
+  a.click()
+  a.remove()
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+  return { fileName, rows }
 }

@@ -51,3 +51,66 @@ export interface StartedRun {
   rows?: number
   warnings?: string[]
 }
+
+export interface Found {
+  source: string
+  method: string
+  evidence: string
+}
+
+export interface Reason {
+  key: string
+  label: string
+  evidence: string
+  source: string
+  points: number
+}
+
+export type SiteState = 'ok' | 'blocked' | 'unreachable' | 'robots_disallowed' | 'no_website'
+
+export interface Lead {
+  id: string
+  company: string | null
+  domain: string | null
+  website: string | null
+  phone: string | null
+  email: string | null
+  street: string | null
+  city: string | null
+  state: string | null
+  industry: TradeKey | 'other' | null
+  yearFounded: number | null
+  yearsInBusiness: number | null
+  ownerName: string | null
+  ownerRole: 'owner' | 'founder' | null
+  size: string
+  revenue: string
+  score: number | null
+  tier: Tier | null
+  reasons: Reason[]
+  topReasons: Reason[]
+  whyCall: string | null
+  fieldSources: Partial<Record<string, { source: string; method?: string; evidence?: string }>>
+  filled: string[]
+  validation: {
+    phoneValid: boolean | null
+    emailSyntax: boolean | null
+    emailDomainAcceptsMail: boolean | null
+    mxHost: string | null
+    stateValid: boolean | null
+    siteStatus: SiteState
+  } | null
+  siteStatus: SiteState
+  completeness: { before: number | null; after: number | null }
+  source: string
+  mergedFrom: Array<{ source: string; company: string | null; domain: string | null; phone: string | null; matchedOn: string[] }>
+}
+
+export interface LeadList {
+  total: number
+  filtered: number
+  counts: Record<Tier, number>
+  items: Lead[]
+}
+
+export type ExportFormat = 'csv' | 'callsheet' | 'hubspot'

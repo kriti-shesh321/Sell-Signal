@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { ApiError, cancelRun, getMeta } from './api'
 import { Header, type Step } from './components/Header'
 import { ThemeToggle } from './components/ThemeToggle'
-import { readLocation, writeLocation, type Location } from './lib/url'
+import { readLocation, startLocation, writeLocation, type Location } from './lib/url'
 import { useRunPolling } from './lib/useRunPolling'
 import { useTheme } from './lib/useTheme'
 import { Processing } from './screens/Processing'
-import { ResultsPlaceholder } from './screens/ResultsPlaceholder'
+import { Results } from './screens/results/Results'
 import { Start } from './screens/Start'
 import { isFinished, submitStart, type StartRequest } from './lib/run'
 import type { Meta } from './types'
@@ -35,21 +35,22 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
-  const navigate = (next: Location) => {
-    writeLocation(next)
+  const navigate = (next: Location, opts: { replace?: boolean; keepScroll?: boolean } = {}) => {
+    writeLocation(next, opts.replace)
     setLoc(next)
-    window.scrollTo({ top: 0 })
+    if (!opts.keepScroll) window.scrollTo({ top: 0 })
   }
 
   // A finished run shows its results; a failed one stays on processing (with Retry) unless asked.
   const screen: Step = !loc.runId ? 0 : loc.view === 'results' || isFinished(run) ? 2 : 1
-  const home = () => navigate({ runId: null, view: null })
+  const home = () => navigate(startLocation())
+  const runLoc = (runId: string, view: Location['view'] = null): Location => ({ ...startLocation(), runId, view })
 
   const retry = async () => {
     if (!lastRequest) return home()
     try {
       const started = await submitStart(lastRequest)
-      navigate({ runId: started.runId, view: null })
+      navigate(runLoc(started.runId))
     } catch {
       home()
     }
@@ -69,9 +70,10 @@ export default function App() {
             meta={meta}
             metaError={metaError}
             onRetryMeta={loadMeta}
+            initialTab={loc.tab}
             onStarted={(started, req) => {
               setLastRequest(req)
-              navigate({ runId: started.runId, view: null })
+              navigate(runLoc(started.runId))
             }}
           />
         )}
@@ -83,11 +85,20 @@ export default function App() {
             canRetry={lastRequest !== null}
             onRetry={() => void retry()}
             onCancel={() => void cancel()}
-            onViewResults={() => loc.runId && navigate({ runId: loc.runId, view: 'results' })}
+            onViewResults={() => loc.runId && navigate(runLoc(loc.runId, 'results'))}
             onStartOver={home}
           />
         )}
-        {screen === 2 && <ResultsPlaceholder run={run} meta={meta} onNewSearch={home} />}
+        {screen === 2 && (
+          <Results
+            run={run}
+            meta={meta}
+            filters={loc.filters}
+            onFilters={(filters) => navigate({ ...loc, filters, view: 'results' }, { replace: true, keepScroll: true })}
+            onNewSearch={home}
+            onImportInstead={() => navigate(startLocation('import'))}
+          />
+        )}
       </main>
     </>
   )

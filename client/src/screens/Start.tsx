@@ -1,6 +1,7 @@
 import { useRef, useState, type DragEvent } from 'react'
 import { ApiError } from '../api'
 import { Alert } from '../components/Alert'
+import { StatePicker } from '../components/StatePicker'
 import { TierLegend } from '../components/TierLegend'
 import { formatBytes, plural } from '../lib/format'
 import { submitStart, tradeWord, type StartRequest } from '../lib/run'
@@ -13,10 +14,11 @@ interface Props {
   metaError: string | null
   onRetryMeta: () => void
   onStarted: (run: StartedRun, req: StartRequest) => void
+  initialTab?: 'find' | 'import'
 }
 
-export function Start({ meta, metaError, onRetryMeta, onStarted }: Props) {
-  const [tab, setTab] = useState<'find' | 'import'>('find')
+export function Start({ meta, metaError, onRetryMeta, onStarted, initialTab = 'find' }: Props) {
+  const [tab, setTab] = useState<'find' | 'import'>(initialTab)
   const [trade, setTrade] = useState<TradeKey>('hvac')
   const [state, setState] = useState('TX')
   const [file, setFile] = useState<{ file: File; rows: number } | null>(null)
@@ -114,20 +116,15 @@ export function Start({ meta, metaError, onRetryMeta, onStarted }: Props) {
                   {!meta && !metaError && <span className="text-sm text-tx3">Loading trades…</span>}
                 </div>
               </fieldset>
-              <label className="flex flex-col gap-2.5">
+              <div className="flex flex-col gap-2.5">
                 <span className="text-[13px] font-semibold text-tx2">State</span>
-                <select
+                <StatePicker
+                  label="State"
                   value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  className="h-12 cursor-pointer rounded-[10px] border border-line2 bg-panel2 px-3.5 text-[15px] text-tx"
-                >
-                  {(meta?.states ?? [{ code: 'TX', name: 'Texas' }]).map((s) => (
-                    <option key={s.code} value={s.code}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  onChange={setState}
+                  options={(meta?.states ?? [{ code: 'TX', name: 'Texas' }]).map((s) => ({ value: s.code, label: s.name }))}
+                />
+              </div>
               {error && <Alert>{error}</Alert>}
               <button
                 type="button"
