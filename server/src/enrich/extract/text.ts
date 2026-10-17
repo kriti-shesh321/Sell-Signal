@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import { email as normalizeEmail, phone as normalizePhone } from '../../pipeline/normalize.js';
-import type { Found, PageDoc } from './types.js';
+import type { Found, FoundName, PageDoc } from './types.js';
 import { personName, snippet, validYear, visibleText } from './util.js';
 
 /** Visible text of a page, cached per document. */
@@ -62,13 +62,20 @@ const OWNER_PATTERNS = [
   new RegExp(String.raw`\b(?:owned and operated by|owned by|operated by|(?:founded|started|established)(?:\s+in\s+(?:19|20)\d{2})?\s+by)\s+${NAME}`, 'gi'),
 ];
 
-export function findOwnerName(pages: PageDoc[]): Found<string> | null {
+// Owner, owned/operated by, President, CEO, proprietor → running it now. Founder, founded/started/established by → started it.
+const CURRENT_ROLE = /\b(?:owners?|owned|operated by|proprietor|president|ceo)\b/i;
+
+/** Role words around the name decide the role; "Founder & President" counts as the owner. */
+export const roleFromMatch = (matchText: string, nameText: string): FoundName['role'] =>
+  CURRENT_ROLE.test(matchText.replace(nameText, ' ')) ? 'owner' : 'founder';
+
+export function findOwnerName(pages: PageDoc[]): FoundName | null {
   for (const page of pages) {
     const text = pageText(page);
     for (const re of OWNER_PATTERNS) {
       for (const m of text.matchAll(re)) {
         const name = personName(m[1]!);
-        if (name) return found(page, name, 'text', snippet(text, m.index, m[0].length));
+        if (name) return { ...found(page, name, 'text', snippet(text, m.index, m[0].length)), role: roleFromMatch(m[0], m[1]!) };
       }
     }
   }

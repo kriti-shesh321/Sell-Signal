@@ -1,13 +1,13 @@
 import * as cheerio from 'cheerio';
 import { phone as normalizePhone, email as normalizeEmail, state as normalizeState } from '../../pipeline/normalize.js';
-import type { Found, PageDoc, PostalAddress } from './types.js';
+import type { Found, FoundName, PageDoc, PostalAddress } from './types.js';
 import { personName, validYear } from './util.js';
 
 type Node = Record<string, unknown>;
 
 export interface StructuredFacts {
   yearFounded: Found<number> | null;
-  ownerName: Found<string> | null;
+  ownerName: FoundName | null;
   phone: Found<string> | null;
   email: Found<string> | null;
   address: Found<PostalAddress> | null;
@@ -96,7 +96,7 @@ export function fromJsonLd(page: PageDoc, now: Date): StructuredFacts {
     }
     if (!facts.ownerName && n.founder !== undefined) {
       const name = founderName(n.founder);
-      if (name) facts.ownerName = found(name, `founder: "${name}"`);
+      if (name) facts.ownerName = { ...found(name, `founder: "${name}"`), role: 'founder' };
     }
     if (!facts.phone) {
       const tel = normalizePhone(str(n.telephone));

@@ -23,7 +23,7 @@ export function fromMicrodata(page: PageDoc, now: Date): StructuredFacts {
 
   const founder = prop('founder');
   const name = founder ? personName(founder) : null;
-  if (name) facts.ownerName = found(name, `founder: "${name}"`);
+  if (name) facts.ownerName = { ...found(name, `founder: "${name}"`), role: 'founder' };
 
   const tel = normalizePhone(prop('telephone'));
   if (tel) facts.phone = found(tel, `telephone: "${prop('telephone')}"`);

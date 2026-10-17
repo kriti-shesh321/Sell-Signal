@@ -10,6 +10,11 @@ export interface Found<T> {
   evidence: string;
 }
 
+/** A person's name plus whether the page presents them as the owner or the founder. */
+export interface FoundName extends Found<string> {
+  role: 'owner' | 'founder';
+}
+
 export interface PostalAddress {
   street: string | null;
   city: string | null;
@@ -30,7 +35,7 @@ export interface SiteSignals {
 
 export interface SiteFacts {
   yearFounded: Found<number> | null;
-  ownerName: Found<string> | null;
+  ownerName: FoundName | null;
   phone: Found<string> | null;
   email: Found<string> | null;
   address: Found<PostalAddress> | null;

@@ -61,9 +61,13 @@ export function parseCsv(text: string, opts: { maxRows?: number; recommendedRows
   if (!header || dataRows.length === 0) throw new CsvImportError('CSV_EMPTY', 'The file has no data rows.');
 
   const columnFor = new Map<MappedField, number>();
+  let ownerHeader = '';
   header.forEach((h, i) => {
     const field = HEADER_ALIASES[headerKey(h)];
-    if (field && !columnFor.has(field)) columnFor.set(field, i);
+    if (field && !columnFor.has(field)) {
+      columnFor.set(field, i);
+      if (field === 'ownerName') ownerHeader = headerKey(h);
+    }
   });
   if (!columnFor.has('company')) {
     throw new CsvImportError(
@@ -102,6 +106,7 @@ export function parseCsv(text: string, opts: { maxRows?: number; recommendedRows
       industry: get('industry'),
       yearFounded: get('yearFounded'),
       ownerName: get('ownerName'),
+      ownerRole: ownerHeader === 'founder' ? 'founder' : 'owner',
     });
   }
 

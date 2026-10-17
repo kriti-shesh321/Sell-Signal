@@ -15,10 +15,10 @@ import {
 } from './text.js';
 import type { PageDoc, SiteFacts } from './types.js';
 
-export type { Found, SiteFacts, SiteSignals, PostalAddress } from './types.js';
+export type { Found, FoundName, SiteFacts, SiteSignals, PostalAddress } from './types.js';
 
 /** Bump whenever extraction rules change, so cached facts from older rules are re-crawled. */
-export const EXTRACTOR_VERSION = 2;
+export const EXTRACTOR_VERSION = 3;
 
 const toDocs = (pages: FetchedPage[]): PageDoc[] =>
   pages.map((p) => ({ role: p.role, source: `website:${p.path}`, html: p.html }));
@@ -54,7 +54,7 @@ export function extractSite(pages: FetchedPage[], finalUrl: string, now: Date = 
       franchise: findFranchise(historyFirst),
       nonprofit: findNonprofit(historyFirst, siteDomain),
       copyrightYear: findCopyrightYear(docs, now),
-      hasViewport: hasViewport(docs.find((d) => d.role === 'home')),
+      hasViewport: hasViewport(docs.find((d) => d.role === 'home') ?? docs[0]),
       https: finalUrl.startsWith('https:'),
     },
   };

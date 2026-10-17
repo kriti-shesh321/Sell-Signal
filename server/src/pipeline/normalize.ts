@@ -135,6 +135,7 @@ export function normalizeLead(lead: RawLead, now: Date = new Date()): Normalized
     industry: classifyIndustry(clean(lead.industry)),
     yearFounded: foundingYear(lead.yearFounded, now),
     ownerName: clean(lead.ownerName),
+    ownerRole: clean(lead.ownerName) ? (lead.ownerRole ?? 'owner') : null,
     nameKey: nameKey(lead.company),
   };
 }

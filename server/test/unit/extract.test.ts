@@ -36,7 +36,7 @@ describe('real pages (trimmed fixtures)', () => {
     const f = extractSite([page('real-yell4george-about.html', 'about', '/about/')], 'https://yell4george.com/', NOW);
     expect(f.yearFounded).toMatchObject({ value: 1947, method: 'text', source: 'website:/about/' });
     expect(f.yearFounded?.evidence).toMatch(/Established in 1947/);
-    expect(f.ownerName).toMatchObject({ value: 'George F. Saliba', method: 'text' });
+    expect(f.ownerName).toMatchObject({ value: 'George F. Saliba', method: 'text', role: 'founder' });
     expect(f.phone).toMatchObject({ value: '7262223200', method: 'JSON-LD' });
     expect(f.address?.value).toMatchObject({ street: '12 Burwood Ln', city: 'San Antonio', state: 'TX', postalCode: '78216' });
     expect(f.signals.familyOwned).toBeNull(); // "Family: More than a workplace…" is a value statement, not ownership
@@ -44,7 +44,7 @@ describe('real pages (trimmed fixtures)', () => {
 
   it('Bellomy /about-us: founder in text, address in JSON-LD, © range takes the latest year', () => {
     const f = extractSite([page('real-bellomyims-about.html', 'about', '/about-us')], 'https://www.bellomyims.com/', NOW);
-    expect(f.ownerName).toMatchObject({ value: 'Randy Bellomy', method: 'text' });
+    expect(f.ownerName).toMatchObject({ value: 'Randy Bellomy', method: 'text', role: 'founder' });
     expect(f.ownerName?.evidence).toMatch(/founder Randy Bellomy/);
     expect(f.yearFounded).toMatchObject({ value: 1980 });
     expect(f.phone).toMatchObject({ value: '2144672653', method: 'JSON-LD' });
@@ -55,7 +55,7 @@ describe('real pages (trimmed fixtures)', () => {
   it('Elite Austin AC /about-us/: JSON-LD founder + foundingDate beat text', () => {
     const f = extractSite([page('real-eliteaustinac-about.html', 'about', '/about-us/')], 'https://eliteaustinac.com/', NOW);
     expect(f.yearFounded).toMatchObject({ value: 2013, method: 'JSON-LD', evidence: 'foundingDate: "2013-12-04"' });
-    expect(f.ownerName).toMatchObject({ value: 'Kyle Bacon', method: 'JSON-LD' });
+    expect(f.ownerName).toMatchObject({ value: 'Kyle Bacon', method: 'JSON-LD', role: 'founder' });
     expect(f.signals.familyOwned?.evidence).toMatch(/Locally owned/i);
     expect(f.address?.value).toMatchObject({ street: '7101 Burleson Road', city: 'Austin' });
   });
@@ -67,7 +67,7 @@ describe('real pages (trimmed fixtures)', () => {
       NOW,
     );
     expect(f.yearFounded?.value).toBe(2010);
-    expect(f.ownerName).toMatchObject({ value: 'Jerry David', source: 'website:/about-us/' });
+    expect(f.ownerName).toMatchObject({ value: 'Jerry David', source: 'website:/about-us/', role: 'owner' });
     expect(f.signals.familyOwned?.evidence).toMatch(/family-owned and operated/);
     expect(f.signals.franchise).toBeNull(); // "Joining the JD Precision Family" is an acquisition they made
     expect(f.signals.copyrightYear?.value).toBe(2026);
@@ -93,7 +93,7 @@ describe('microdata layer', () => {
   it('reads foundingDate, founder, telephone, email and address', () => {
     const f = fromMicrodata(doc('edge-microdata.html', 'home', '/'), NOW);
     expect(f.yearFounded).toMatchObject({ value: 1979, method: 'microdata' });
-    expect(f.ownerName?.value).toBe('Maria Gonzalez');
+    expect(f.ownerName).toMatchObject({ value: 'Maria Gonzalez', role: 'founder' });
     expect(f.phone?.value).toBe('8175550199');
     expect(f.email?.value).toBe('office@lonestarroofing.test');
     expect(f.address?.value).toMatchObject({ street: '400 Main St', city: 'Fort Worth', state: 'TX', postalCode: '76102' });
@@ -194,6 +194,23 @@ describe('text rules: owner patterns', () => {
       expect(owner(text)).toBeNull();
     },
   );
+
+  const role = (t: string) => findOwnerName([{ role: 'about', source: 'website:/about/', html: `<p>${t}</p>` }])?.role ?? null;
+  it.each([
+    ['Owner: John Smith', 'owner'],
+    ['John Smith, Owner', 'owner'],
+    ['Owned and operated by Daniel Hernandez.', 'owner'],
+    ['Mike Clements – President', 'owner'],
+    ['CEO Dana White leads the team', 'owner'],
+    ['Founder & President, Lisa Chen', 'owner'],
+    ['Founder: Maria Lopez', 'founder'],
+    ['Kyle Bacon — Co-Founder & Managing Member', 'founder'],
+    ['The company was founded by Robert McNamara in 1982.', 'founder'],
+    ['Started by Ann Lee in her garage', 'founder'],
+    ['established in 1947 by George F. Saliba.', 'founder'],
+  ] as const)('role: %s → %s', (text, expected) => {
+    expect(role(text)).toBe(expected);
+  });
 
   it('personName strips leading role words and stops at non-name words', () => {
     expect(personName('Plumber John Smith Plumbing')).toBe('John Smith');

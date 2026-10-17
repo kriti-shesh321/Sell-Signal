@@ -46,6 +46,11 @@ describe('parseCsv', () => {
     expect(leads[0]).toMatchObject({ state: 'Texas', yearFounded: '1985', ownerName: 'Jane Doe' });
   });
 
+  it('an Owner column means owner; a Founder column means founder', () => {
+    expect(parseCsv('Company,Owner\nAcme,Jane Doe').leads[0]).toMatchObject({ ownerName: 'Jane Doe', ownerRole: 'owner' });
+    expect(parseCsv('Company,Founder\nAcme,Jane Doe').leads[0]).toMatchObject({ ownerName: 'Jane Doe', ownerRole: 'founder' });
+  });
+
   it('handles a BOM, CRLF line endings, quoted commas and extra columns', () => {
     const csv = '﻿company,city,notes\r\n"Riteway Service Company, Inc.",San Antonio,"a, b"\r\n';
     const { leads } = parseCsv(csv);

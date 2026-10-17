@@ -78,7 +78,7 @@ export function dedupe(input: NormalizedLead[]): DedupeResult {
     const base = input[ordered[0]!]!;
     const merged: MergedLead = {
       company: null, domain: null, website: null, phone: null, email: null, street: null, city: null,
-      state: null, industry: null, yearFounded: null, ownerName: null,
+      state: null, industry: null, yearFounded: null, ownerName: null, ownerRole: null,
       source: '', sources: [], raw: [], fieldSources: {}, mergedFrom: [],
     };
 
@@ -87,6 +87,7 @@ export function dedupe(input: NormalizedLead[]): DedupeResult {
       for (const f of MERGE_FIELDS) {
         if (merged[f] === null && row[f] !== null) {
           (merged as unknown as Record<LeadField, unknown>)[f] = row[f];
+          if (f === 'ownerName') merged.ownerRole = row.ownerRole;
           merged.fieldSources[f] = { source: SOURCE_LABELS[row.source] };
         }
       }

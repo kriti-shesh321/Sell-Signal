@@ -1,6 +1,8 @@
 export type SourceName = 'osm' | 'csv' | 'seed';
 export type TradeKey = 'hvac' | 'plumbing' | 'electrical' | 'roofing';
 export type Industry = TradeKey | 'other';
+/** A named person is either running the business now (owner) or started it (founder). */
+export type OwnerRole = 'owner' | 'founder';
 
 /** A lead as a source adapter emits it: loosely typed, not yet cleaned. */
 export interface RawLead {
@@ -17,6 +19,7 @@ export interface RawLead {
   industry?: string | null;
   yearFounded?: string | number | null;
   ownerName?: string | null;
+  ownerRole?: OwnerRole | null;
 }
 
 export interface NormalizedLead {
@@ -33,6 +36,7 @@ export interface NormalizedLead {
   industry: Industry | null;
   yearFounded: number | null;
   ownerName: string | null;
+  ownerRole: OwnerRole | null;
   /** Company name reduced for matching (lowercase, no legal suffix or punctuation). */
   nameKey: string | null;
 }
@@ -51,7 +55,10 @@ export type LeadField =
   | 'ownerName';
 
 export interface FieldSource {
+  /** "OpenStreetMap", "CSV import", "Seed list", "website:/about-us/", "DNS" */
   source: string;
+  /** How a website value was found: "JSON-LD", "microdata", "text", "tel: link", ... */
+  method?: string;
   evidence?: string;
 }
 
