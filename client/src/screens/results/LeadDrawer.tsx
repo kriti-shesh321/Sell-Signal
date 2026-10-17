@@ -4,7 +4,8 @@ import { SitePill } from '../../components/SitePill'
 import { TierBadge } from '../../components/TierBadge'
 import { formatPhone } from '../../lib/format'
 import type { Lead } from '../../types'
-import { describeSource, place } from '../../lib/leads'
+import { describeSource, isAiSource, place } from '../../lib/leads'
+import { AiTag } from '../../components/AiTag'
 
 const TIER_TEXT = { A: 'Tier A · Call first', B: 'Tier B · Nurture', C: 'Tier C · Low priority' } as const
 const SOURCE_NAMES: Record<string, string> = { osm: 'OpenStreetMap', csv: 'CSV import', seed: 'Seed list' }
@@ -88,7 +89,10 @@ export function LeadDrawer({ lead, onClose }: { lead: Lead; onClose: () => void 
             {lead.reasons.map((r) => (
               <div key={r.key} className="flex gap-3.5 border-t border-line py-3">
                 <div className="flex min-w-0 flex-1 flex-col gap-[3px]">
-                  <div className="text-sm font-semibold">{r.label}</div>
+                  <div className="flex items-center gap-1.5 text-sm font-semibold">
+                    {r.label}
+                    {isAiSource(r.source) && <AiTag />}
+                  </div>
                   <div className="text-[13px] leading-snug break-words text-tx2">{r.evidence}</div>
                   <div className="text-xs text-tx3">Source: {r.source}</div>
                 </div>
@@ -173,6 +177,12 @@ export function LeadDrawer({ lead, onClose }: { lead: Lead; onClose: () => void 
                 {lead.filled.map((f) => (
                   <li key={f}>
                     <span className="text-tx2">{f}</span> filled from {describeSource(lead.fieldSources[f])}
+                    {isAiSource(lead.fieldSources[f]?.source) && (
+                      <>
+                        {' '}
+                        <AiTag />
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>

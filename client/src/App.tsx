@@ -17,7 +17,7 @@ export default function App() {
   const [meta, setMeta] = useState<Meta | null>(null)
   const [metaError, setMetaError] = useState<string | null>(null)
   const [lastRequest, setLastRequest] = useState<StartRequest | null>(null)
-  const { run, error: runError } = useRunPolling(loc.runId)
+  const { run, error: runError, refresh: refreshRun } = useRunPolling(loc.runId)
 
   const loadMeta = useCallback(() => {
     getMeta()
@@ -97,6 +97,7 @@ export default function App() {
             onFilters={(filters) => navigate({ ...loc, filters, view: 'results' }, { replace: true, keepScroll: true })}
             onNewSearch={home}
             onImportInstead={() => navigate(startLocation('import'))}
+            onRunChanged={refreshRun}
           />
         )}
       </main>

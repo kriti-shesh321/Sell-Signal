@@ -1,5 +1,5 @@
 import { plural } from '../../lib/format'
-import type { RunStats } from '../../types'
+import type { AiStats, RunStats } from '../../types'
 
 const SOURCE_NAMES: Record<string, string> = { osm: 'OpenStreetMap', csv: 'CSV', seed: 'seed list' }
 
@@ -10,6 +10,17 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
       {children}
     </div>
   )
+}
+
+/** "AI: 3 filled from 9 calls" plus why it stopped, if it did. */
+function aiLine(ai: AiStats) {
+  const filled = ai.filled.ownerName + ai.filled.yearFounded + ai.filled.familyOwned
+  const parts = [`AI: ${filled} filled from ${plural(ai.calls, 'call')}`]
+  if (ai.cached) parts.push(`${ai.cached} reused`)
+  if (ai.rejected) parts.push(`${ai.rejected} rejected`)
+  if (ai.stopped) parts.push(`stopped: ${ai.stopped}`)
+  else if (ai.errors) parts.push(plural(ai.errors, 'error'))
+  return parts.join(' · ')
 }
 
 const big = 'font-mono text-[21px] font-semibold tracking-[-0.02em] sm:text-[28px]'
@@ -46,7 +57,10 @@ export function SummaryCards({ stats }: { stats: RunStats }) {
           <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${after}%`, background: 'linear-gradient(90deg,#36d6c3,#4f8df7)' }} />
           <div className="absolute inset-y-0 left-0 rounded-full bg-tx3" style={{ width: `${before}%` }} />
         </div>
-        <div className="text-[13px] text-tx2">{plural(stats.fieldsFilled, 'field')} filled from company websites</div>
+        <div className="text-[13px] text-tx2">
+          {plural(stats.fieldsFilled, 'field')} filled from company websites
+          {stats.ai?.enabled && <span className="block text-tx3">{aiLine(stats.ai)}</span>}
+        </div>
       </Card>
       <Card title="Tier breakdown">
         <div className="flex items-baseline gap-3 sm:gap-[18px]">

@@ -1,4 +1,4 @@
-import type { ExportFormat, LeadList, Meta, RunView, StartedRun } from './types'
+import type { BuyBox, ExportFormat, LeadList, Meta, RescoreResult, RunView, StartedRun } from './types'
 
 export const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8080').replace(/\/$/, '')
 
@@ -38,6 +38,14 @@ export const getMeta = () => call<Meta>('/api/meta')
 export const getRun = (id: string, signal?: AbortSignal) => call<RunView>(`/api/runs/${encodeURIComponent(id)}`, { signal })
 export const discover = (trade: string, state: string) => call<StartedRun>('/api/runs/discover', json({ trade, state }))
 export const cancelRun = (id: string) => call<{ runId: string; status: string }>(`/api/runs/${encodeURIComponent(id)}/cancel`, { method: 'POST' })
+
+/** Change the run's buy-box; the server rescores from stored signals without re-visiting any site. */
+export const updateBuyBox = (id: string, buybox: Pick<BuyBox, 'industries' | 'states'>) =>
+  call<RescoreResult>(`/api/runs/${encodeURIComponent(id)}/buybox`, {
+    method: 'PUT',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(buybox),
+  })
 
 export function importCsv(file: File) {
   const form = new FormData()

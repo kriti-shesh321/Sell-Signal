@@ -5,7 +5,8 @@ import { Toast } from '../../components/Toast'
 import { hasAnyFilter, NO_FILTERS, toApiQuery, type Filters } from '../../lib/filters'
 import { plural } from '../../lib/format'
 import { runLabel, tradeWord } from '../../lib/run'
-import type { ExportFormat, Lead, LeadList, Meta, RunView } from '../../types'
+import type { ExportFormat, Lead, LeadList, Meta, RescoreResult, RunView } from '../../types'
+import { BuyBoxEditor } from './BuyBoxEditor'
 import { ExportMenu } from './ExportMenu'
 import { FilterBar } from './FilterBar'
 import { LeadCard } from './LeadCard'
@@ -20,11 +21,13 @@ interface Props {
   onFilters: (f: Filters) => void
   onNewSearch: () => void
   onImportInstead: () => void
+  /** Re-fetch the run (after a rescore changed its tiers). */
+  onRunChanged: () => void
 }
 
 type Loaded = { key: string; list: LeadList | null; error: string | null }
 
-export function Results({ run, meta, filters, onFilters, onNewSearch, onImportInstead }: Props) {
+export function Results({ run, meta, filters, onFilters, onNewSearch, onImportInstead, onRunChanged }: Props) {
   const runId = run?.id ?? null
   const queryString = toApiQuery(filters).toString()
   const [all, setAll] = useState<Loaded | null>(null)
@@ -32,6 +35,8 @@ export function Results({ run, meta, filters, onFilters, onNewSearch, onImportIn
   const [drawer, setDrawer] = useState<Lead | null>(null)
   const [toast, setToast] = useState<{ msg: string; tone: 'ok' | 'bad' } | null>(null)
   const [exporting, setExporting] = useState(false)
+  // Bumped after a rescore so both lead lists load again.
+  const [rev, setRev] = useState(0)
 
   // Unfiltered list once per run (state options, totals); filtered list from the API on every filter change,
   // so "Showing N" always equals what an export with the same filters contains.
@@ -39,20 +44,22 @@ export function Results({ run, meta, filters, onFilters, onNewSearch, onImportIn
     if (!runId) return
     const ctrl = new AbortController()
     getLeads(runId, new URLSearchParams(), ctrl.signal)
-      .then((list) => setAll({ key: runId, list, error: null }))
-      .catch((e: unknown) => !ctrl.signal.aborted && setAll({ key: runId, list: null, error: e instanceof ApiError ? e.message : 'Failed to load leads' }))
+      .then((list) => setAll({ key: `${runId}#${rev}`, list, error: null }))
+      .catch(
+        (e: unknown) => !ctrl.signal.aborted && setAll({ key: `${runId}#${rev}`, list: null, error: e instanceof ApiError ? e.message : 'Failed to load leads' }),
+      )
     return () => ctrl.abort()
-  }, [runId, run?.status])
+  }, [runId, run?.status, rev])
 
   useEffect(() => {
     if (!runId || !queryString) return
-    const key = `${runId}?${queryString}`
+    const key = `${runId}#${rev}?${queryString}`
     const ctrl = new AbortController()
     getLeads(runId, new URLSearchParams(queryString), ctrl.signal)
       .then((list) => setShown({ key, list, error: null }))
       .catch((e: unknown) => !ctrl.signal.aborted && setShown({ key, list: null, error: e instanceof ApiError ? e.message : 'Failed to load leads' }))
     return () => ctrl.abort()
-  }, [runId, queryString])
+  }, [runId, queryString, rev])
 
   useEffect(() => {
     if (!toast) return
@@ -60,10 +67,10 @@ export function Results({ run, meta, filters, onFilters, onNewSearch, onImportIn
     return () => clearTimeout(t)
   }, [toast])
 
-  const allList = all?.key === runId ? all : null
-  const exact = queryString ? (shown?.key === `${runId}?${queryString}` ? shown : null) : allList
-  // While a new filter loads, keep showing the previous list for this run instead of flashing "Loading".
-  const previous = shown?.key.startsWith(`${runId}?`) ? shown : allList
+  const allList = all?.key.startsWith(`${runId}#`) ? all : null
+  const exact = queryString ? (shown?.key === `${runId}#${rev}?${queryString}` ? shown : null) : all?.key === `${runId}#${rev}` ? all : null
+  // While a new filter (or a rescore) loads, keep showing the previous list for this run instead of flashing "Loading".
+  const previous = shown?.key.startsWith(`${runId}#`) ? shown : allList
   const current = exact ?? previous
   const loading = exact === null
   const items = current?.list?.items ?? null
@@ -83,6 +90,13 @@ export function Results({ run, meta, filters, onFilters, onNewSearch, onImportIn
     } finally {
       setExporting(false)
     }
+  }
+
+  const rescored = (r: RescoreResult) => {
+    setRev((n) => n + 1)
+    onRunChanged()
+    setDrawer(null)
+    setToast({ msg: `Rescored ${plural(r.rescored, 'lead')} · A ${r.tiers.A} · B ${r.tiers.B} · C ${r.tiers.C}`, tone: 'ok' })
   }
 
   const { eyebrow } = runLabel(run, meta)
@@ -110,6 +124,7 @@ export function Results({ run, meta, filters, onFilters, onNewSearch, onImportIn
           <button type="button" onClick={onNewSearch} className="h-11 rounded-[10px] border border-line2 bg-panel px-4 text-sm font-medium hover:border-tx3">
             New search
           </button>
+          {run && !isEmpty && <BuyBoxEditor key={run.id} run={run} meta={meta} onRescored={rescored} />}
           {!isEmpty && <ExportMenu count={current?.list?.filtered ?? 0} onExport={(f) => void exportFile(f)} busy={exporting || loading} />}
         </div>
       </div>

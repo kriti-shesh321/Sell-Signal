@@ -26,9 +26,34 @@ export interface RunStats {
   tiers: Record<Tier, number>
   topSignals: Array<{ key: string; label: string; count: number }>
   fillRates: { phone: number; email: number; yearFounded: number; ownerName: number }
-  ai: { enabled: boolean; calls: number }
+  ai: AiStats
   timings: { startedAt: string | null; finishedAt: string | null; elapsedMs: number; avgSiteMs: number }
   warnings: string[]
+}
+
+export interface AiStats {
+  enabled: boolean
+  model: string | null
+  calls: number
+  cached: number
+  filled: { ownerName: number; yearFounded: number; familyOwned: number }
+  rejected: number
+  errors: number
+  skippedCap: number
+  stopped: string | null
+}
+
+export interface BuyBox {
+  industries: TradeKey[]
+  states: string[]
+  weights: Record<string, number>
+}
+
+export interface RescoreResult {
+  runId: string
+  rescored: number
+  tiers: Record<Tier, number>
+  buybox: BuyBox
 }
 
 export interface RunView {
@@ -39,7 +64,7 @@ export interface RunView {
   createdAt: string
   progress: { stage: Stage; processed: number; total: number; pct: number }
   stats: RunStats
-  buybox: { industries: TradeKey[]; states: string[]; weights: Record<string, number> }
+  buybox: BuyBox
   notice: string | null
   error: string | null
 }
