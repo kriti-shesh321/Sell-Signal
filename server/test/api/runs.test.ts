@@ -59,6 +59,23 @@ describe('POST /api/runs/discover', () => {
     expect(run.body.stats.rowsIn.seed).toBeGreaterThan(0);
   });
 
+  it('Overpass down + a trade the seed list lacks → failed, never other trades', async () => {
+    const ctx = testApp({ overpassDown: true });
+    const res = await startDiscovery(ctx, { trade: 'roofing', state: 'TX' });
+    const run = await request(ctx.app).get(`/api/runs/${res.body.runId}`);
+    expect(run.body).toMatchObject({ status: 'failed' });
+    expect(run.body.error).toMatch(/seed list has no roofing businesses/);
+    expect((await request(ctx.app).get(`/api/runs/${res.body.runId}/leads`)).body.total).toBe(0);
+  });
+
+  it('Overpass down + seed fallback keeps only the requested trade', async () => {
+    const ctx = testApp({ overpassDown: true });
+    const res = await startDiscovery(ctx, { trade: 'electrical', state: 'TX' });
+    const leads = await request(ctx.app).get(`/api/runs/${res.body.runId}/leads`);
+    expect(leads.body.total).toBeGreaterThan(0);
+    expect(leads.body.items.every((l: { industry: string }) => l.industry === 'electrical')).toBe(true);
+  });
+
   it('Overpass down + another state → failed with a readable error', async () => {
     const ctx = testApp({ overpassDown: true });
     const res = await startDiscovery(ctx, { trade: 'plumbing', state: 'OK' });

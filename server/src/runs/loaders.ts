@@ -20,11 +20,11 @@ export function discoverLoader(sources: SourceDeps, trade: Trade, state: string)
       return { leads: await sources.discover(trade, state) };
     } catch (err) {
       if (!(err instanceof OverpassUnavailableError)) throw err;
-      if (state === 'TX') {
-        const leads = sources.seed().filter((l) => l.industry === trade.key);
-        return { leads: leads.length ? leads : sources.seed(), sourceType: 'seed', notice: SEED_NOTICE };
-      }
-      throw new Error('OpenStreetMap is unavailable right now. Try again in a minute, or import a CSV instead.');
+      // Only the same trade from the seed list: never substitute other trades' businesses.
+      const leads = state === 'TX' ? sources.seed().filter((l) => l.industry === trade.key) : [];
+      if (leads.length) return { leads, sourceType: 'seed', notice: SEED_NOTICE };
+      const why = state === 'TX' ? ` and the seed list has no ${trade.label === 'HVAC' ? 'HVAC' : trade.label.toLowerCase()} businesses` : '';
+      throw new Error(`OpenStreetMap is unavailable right now${why}. Try again in a minute, or import a CSV instead.`);
     }
   };
 }

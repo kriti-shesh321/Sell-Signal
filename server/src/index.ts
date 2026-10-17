@@ -8,7 +8,7 @@ import { crawlSite } from './enrich/crawl.js';
 import { EXTRACTOR_VERSION, extractSite, type SiteFacts } from './enrich/extract/index.js';
 import { configureNetwork } from './net.js';
 import { JobRunner } from './runs/job.js';
-import { osmAdapter } from './sources/osm.js';
+import { osmAdapter, OverpassUnavailableError } from './sources/osm.js';
 import { readSampleCsv, seedLeads } from './sources/seed.js';
 import { mxLookup } from './validate/validate.js';
 
@@ -60,7 +60,11 @@ const app = createApp({
     runner,
     limits,
     sources: {
-      discover: (trade, state) => osm.load({ trade, state }),
+      discover: (trade, state) =>
+        osm.load({ trade, state }).catch((err: unknown) => {
+          if (err instanceof OverpassUnavailableError) console.log(`[osm] ${trade.key}/${state} failed: ${err.attempts.join(' | ')}`);
+          throw err;
+        }),
       seed: () => seedLeads(config.MAX_DISCOVER),
       sampleCsv: readSampleCsv,
     },
